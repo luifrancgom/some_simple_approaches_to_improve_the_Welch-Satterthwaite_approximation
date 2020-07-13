@@ -1,0 +1,117 @@
+---
+title: "Economic concepts"
+author: "Luis Francisco Gomez Lopez"
+date: 2020-07-13
+output:
+  html_document:
+    code_folding: hide
+    df_print: paged
+    highlight: tango
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_depth: 3
+bibliography: economic_concepts.bib
+link-citations: yes
+---
+
+<style>
+
+body {
+text-align: justify}
+
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo      = TRUE, 
+                      warning   = FALSE, 
+                      message   = FALSE,
+                      fig.align = "center")
+```
+
+```{r libraries}
+
+library(tidyverse)
+library(wbstats)
+library(plotly)
+```
+
+# Gross Domestic Product (GDP)
+
+We can initially approach the concept of __GDP__ by explaining the terms __"Product"__, __"Domestic"__ and __"Gross"__ separately [@lequiller_understanding_2014, Chapter 1]:
+
+- __Product:__ refers to what we are trying to measure, which is the production of goods and services, with no double counting, in a given period, $t$ and carried out by:
+
+    + Profit-making enterprises (economists use the alternative term _firms_)
+    
+    + Non-profit institutions
+    
+    + Goverment bodies
+    
+    + Households
+
+- __"Domestic"__: indicates that the production to be taken into account is the one that is carried within a certain geographical territory, $s$, clearly delimited. 
+
+    + In that sense if we use the concept of of __GDP__ we don't care who carried out the production in $t$ but only where the production was carried out in $t$ 
+    
+- __"Gross"__: it means that depreciation or the cost of using capital is not deducted (in the field of economics it is called consumption of fixed capital). 
+
+    + In other words, the decrease in the value of the assets due to physical deterioration, foreseeable wear or accidental damage is not deducted.
+    
+    + Why depreciation or the cost of using capital is not deducted?
+    
+        + It is a variable difficult to measure and the methods used to measure it tend to differ between countries creating problems for international comparison
+        
+## Three equivalent ways to measure the GDP
+
+Initially the units  in which __GDP__ is measure is in monetary units of a specific currency, $c$. Therefore $GDP_{s}^{c}(t)$ means the $GDP$ of territory $s$ in a given period $t$. To make the discussion less abstract we present a plot of $GDP$ for Colombia, $s = COL$, expressed in Colombian pesos, $c = COP$, for the years 1960 to 2019, $t = 1960, \ldots, 2019$: 
+
+```{r, fig.width = 7, fig.height = 8}
+
+# Clean data
+gdp_colombia <- wbstats::wb(country   = "COL", 
+                             indicator = "NY.GDP.MKTP.CN", 
+                             startdate = 1960, 
+                             enddate   = 2019) %>% 
+    tibble::as_tibble() %>% 
+    dplyr::select(date, value) %>%
+    dplyr::mutate(date       = as.double(date),
+                  label_text = stringr::str_glue('Year: {date}
+                                                  GDP: {value %>% scales::dollar()}')) 
+
+# Plot
+    
+static_plot <- gdp_colombia %>%
+    # Data
+    ggplot2::ggplot(aes(x = date, y =value)) +
+    # Geoms
+    ggplot2::geom_point(aes(text = label_text),
+                        shape = 21, 
+                        color = "black", 
+                        fill  = "red") + 
+    ggplot2::geom_line(linetype = "dashed") +
+    # Scales
+    scale_x_continuous(breaks = c(1960:2019)) +
+    scale_y_continuous(breaks = seq(from = 0, to = 1.10e15, by = 1e14), 
+                       labels = scales::number_format(scale = 1/1e12, suffix = "B")) +
+    labs(x = "Year",
+         y = "GDP in current local currency [B = Billion in long scale (10^12)]",
+         title = "GDP of Colombia: 1960-2019") +
+    # Themes
+    theme(panel.border      = element_rect(fill = NA, color = "black"),
+          plot.background   = element_rect(fill = "#f3fcfc"),          
+          panel.background  = element_rect(fill = "#f3f7fc"),
+          legend.background = element_rect(fill = "#f3fcfc"), 
+          plot.title        = element_text(face = "bold"),
+          axis.text.x=element_text(angle = -90, vjust = 0.5),
+          axis.title        = element_text(face = "bold"),
+          legend.title      = element_text(face = "bold"),
+          axis.text         = element_text(face = "bold"))
+
+    # Interactivity
+    static_plot %>% 
+      plotly::ggplotly(tooltip = "text")
+    
+```
+
+# Bibliography
