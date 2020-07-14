@@ -245,5 +245,87 @@ And many other aspects not included in this short list but the idea is to explai
     + __GDP__
     
         + __Total Income__ = __Total workers income__ $+$ __Total owners income__ $= (80 \text{ COP} + 20 \text{ COP}) +  (20 \text{ COP} + 30 \text{ COP}) = 200 \text{ COP} =$ __GDP__
+        
+#### __GDP__ as the value and uses of final goods and services
+
+- __GDP__ is the value of all the final goods and services produced in a certain geographical territory $s$ during a given period $t$ expressed in a local currency $c$ and classified according to their use.
+
+- We can classify the uses of final production in the following items which corresponds only to goods and services produced __inside__ a certain geographical territory $s$ during a given period $t$ expressed in a local currency $c$:
+
+    + __Households and non-profit institutions final consumption expenditure__: $C_s^c(t)$
+    
+        + It simply indicates that part of the production is consumed by households which includes the expenditures of nonprofit institutions serving households.
+        
+            + There is an exception where purchases of dwellings by households are excluded from $C_s^c(t)$   
+    
+    +  __Gross capital formation__: $I_s^c(t)$
+    
+        + It simply refers to additions of fixed assets to the economy plus net changes in the level of inventories.  
+        
+            + In this item purchases of dwellings by households are included becauses dwellings are considered additions of fixed assets to the economy.
+            
+            + Inventories refers to stocks of goods held by enterprises to meet temporary or unexpected fluctuations in production or sales and work in progress (in our simple economy "work in progress" will be for example the case of a car that it is not totally finished by __Car enterprise__ at the end of period $t$).
+            
+    + __General government final consumption expenditure__: $G_s^c(t)$
+    
+        + It simply refers to most of the government's current expenses for purchases of goods and services.
+        
+    + __Exports of goods and services__: $X_s^c(t)$
+    
+        + It simply refers to all goods and services provided to the rest of the world that is outside $s$.
+        
+- In that sense $GDP_s^c(t) = C_s^c(t) + I_s^c(t) + G_s^c(t) + X_s^c(t)$
+
+- Measuring __GDP__ as the as the value and uses of final goods and services:
+
+    + $C_s^c(t) + X_s^c(t) = 200 \text{ COP}$ (It corresponds to the Revenue from sales of cars that are consumed by households or exported)
+    
+    + $I_s^c(t) = 0 \text{ COP}$
+    
+    + $G_s^c(t) = 0 \text{ COP}$
+    
+    + $GDP_s^c(t) = 200 \text{ COP} + 0 \text{ COP} + 0 \text{ COP} = 200 \text{ COP}$
+    
+##### The macroeconomic identity
+
+- In all the macroeconomic textbooks and data published by statistical organizations it is pointed out that $GDP = C + I + G + X - IM$ where $IM$ refers to the imports received from the rest of the world in relation to a certain geographical territory $s$.
+
+- This is consistent with $GDP_s^c(t) = C_s^c(t) + I_s^c(t) + G_s^c(t) + X_s^c(t)$ if we rewrite this expression as:
+
+$$\begin{split}
+   GDP_s^c(t) & = C_s^c(t) + I_s^c(t) + G_s^c(t) + X_s^c(t) \\
+   & = C_s^c(t) + C_{rw}^c(t) + I_s^c(t) + I_{rw}^c(t) + G_s^c(t) + G_{rw}^c(t) + X_s^c(t) - C_{rw}^c(t) - I_{rw}^c(t) - G_{rw}^c(t) \\
+   & = C_s^c(t) + C_{rw}^c(t) + I_s^c(t) + I_{rw}^c(t) + G_s^c(t) + G_{rw}^c(t) + X_s^c(t) - (C_{rw}^c(t) + I_{rw}^c(t) + G_{rw}^c(t)) \\
+   & = C^c(t) + I^c(t) + G^c(t) + X^c(t) - IM^c(t) 
+   \end{split}$$
+
+- Where: 
+
+    + $C_{rw}^c(t)$ is the __Households and non-profit institutions final consumption expenditure__ with goods and services produced in the rest of the world, $rw$.
+    
+    + $C^c(t) = C_s^c(t) + C_{rw}^c(t)$ is the _ Total Households and non-profit institutions final consumption expenditure__ 
+    
+    + $I_{rw}^c(t)$ is the __Gross capital formation__ with goods and services produced in the rest of the world, $rw$.
+    
+    + $I^c(t) = I_s^c(t) + I_{rw}^c(t)$ is the __Total Gross capital formation__
+    
+    + $G_{rw}^c(t)$ is the __General government final consumption expenditure__ with goods and services produced in the rest of the world, $rw$.
+    
+    + $G^c(t) = G_s^c(t) + G_{rw}^c(t)$ is the __Total General government final consumption expenditure__
+    
+    + $IM^c(t) = C_{rw}^c(t) + I_{rw}^c(t) + G_{rw}^c(t)$
+    
+## From a simple economy with artificial data to real data
+
+Using data with annual periodicity provided by the Departamento Nacional de Estadística (DANE) from Colombia expressed in Colombian Pesos (COP) for the years $2005-2019$ we show the behavior of the __GDP__ using the three equivalent ways to measure production
+
+### GDP as the sum of value added for Colombia using the ISIC [^1]
+
+#### Sectors
+
+
+
+
+[^1]: International Standard Industrial Classification of All Economic Activities
 
 # Bibliography
