@@ -68,50 +68,50 @@ Initially the units  in which __GDP__ is measure is in monetary units of a speci
 
 ```{r, fig.width = 7, fig.height = 8}
 
-# # Clean data
-# gdp_colombia <- wbstats::wb(country   = "COL",
-#                              indicator = "NY.GDP.MKTP.CN",
-#                              startdate = 1960,
-#                              enddate   = 2019) %>%
-#     tibble::as_tibble() %>%
-#     dplyr::select(date, value) %>%
-#     dplyr::mutate(date       = as.double(date),
-#                   label_text = stringr::str_glue('Year: {date}
-#                                                   GDP: {value %>% scales::dollar()}'))
-# 
-# # Plot
-# 
-# static_plot <- gdp_colombia %>%
-#     # Data
-#     ggplot2::ggplot(aes(x = date, y =value)) +
-#     # Geoms
-#     ggplot2::geom_point(aes(text = label_text),
-#                         shape = 21,
-#                         color = "black",
-#                         fill  = "red") +
-#     ggplot2::geom_line(linetype = "dashed") +
-#     # Scales
-#     scale_x_continuous(breaks = c(1960:2019)) +
-#     scale_y_continuous(breaks = seq(from = 0, to = 1.10e15, by = 1e14),
-#                        labels = scales::number_format(scale = 1/1e12, suffix = "B")) +
-#     labs(x = "Year",
-#          y = "GDP in current local currency [B = Billion in long scale (10^12)]",
-#          title = "GDP of Colombia: 1960-2019") +
-#     # Themes
-#     theme(panel.border      = element_rect(fill = NA, color = "black"),
-#           plot.background   = element_rect(fill = "#f3fcfc"),
-#           panel.background  = element_rect(fill = "#f3f7fc"),
-#           legend.background = element_rect(fill = "#f3fcfc"),
-#           plot.title        = element_text(face = "bold"),
-#           axis.text.x=element_text(angle = -90, vjust = 0.5),
-#           axis.title        = element_text(face = "bold"),
-#           legend.title      = element_text(face = "bold"),
-#           axis.text         = element_text(face = "bold"))
-# 
-#     # Interactivity
-#     static_plot %>%
-#       plotly::ggplotly(tooltip = "text")
-#     
+# Clean data
+gdp_colombia <- wbstats::wb(country   = "COL",
+                             indicator = "NY.GDP.MKTP.CN",
+                             startdate = 1960,
+                             enddate   = 2019) %>%
+    tibble::as_tibble() %>%
+    dplyr::select(date, value) %>%
+    dplyr::mutate(date       = as.double(date),
+                  label_text = stringr::str_glue('Year: {date}
+                                                  GDP: {value %>% scales::dollar()}'))
+
+# Plot
+
+static_plot <- gdp_colombia %>%
+    # Data
+    ggplot2::ggplot(aes(x = date, y =value)) +
+    # Geoms
+    ggplot2::geom_point(aes(text = label_text),
+                        shape = 21,
+                        color = "black",
+                        fill  = "red") +
+    ggplot2::geom_line(linetype = "dashed") +
+    # Scales
+    scale_x_continuous(breaks = c(1960:2019)) +
+    scale_y_continuous(breaks = seq(from = 0, to = 1.10e15, by = 1e14),
+                       labels = scales::number_format(scale = 1/1e12, suffix = "B")) +
+    labs(x = "Year",
+         y = "GDP in current local currency [B = Billion in long scale (10^12)]",
+         title = "GDP of Colombia: 1960-2019") +
+    # Themes
+    theme(panel.border      = element_rect(fill = NA, color = "black"),
+          plot.background   = element_rect(fill = "#f3fcfc"),
+          panel.background  = element_rect(fill = "#f3f7fc"),
+          legend.background = element_rect(fill = "#f3fcfc"),
+          plot.title        = element_text(face = "bold"),
+          axis.text.x=element_text(angle = -90, vjust = 0.5),
+          axis.title        = element_text(face = "bold"),
+          legend.title      = element_text(face = "bold"),
+          axis.text         = element_text(face = "bold"))
+
+    # Interactivity
+    static_plot %>%
+      plotly::ggplotly(tooltip = "text")
+
 ```
 
 ## A simple economy to explain the measurement of production [@blanchard_macroeconomics_2017]
