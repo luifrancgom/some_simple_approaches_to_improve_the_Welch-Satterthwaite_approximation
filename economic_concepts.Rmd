@@ -321,7 +321,7 @@ Using data with annual periodicity provided by the Departamento Nacional de Esta
 
 ### GDP as the sum of value added for Colombia using the ISIC [^1]
 
-#### Sectors
+#### Sectors considered
 
 
 
