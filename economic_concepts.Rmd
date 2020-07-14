@@ -1,6 +1,6 @@
 ---
 title: "Economic concepts"
-author: "Luis Francisco Gomez Lopez"
+author: "Luis Francisco Gomez L"
 date: 2020-07-13
 output:
   html_document:
