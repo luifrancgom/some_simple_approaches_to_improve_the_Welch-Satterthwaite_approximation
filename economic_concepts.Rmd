@@ -10,7 +10,7 @@ output:
     number_sections: yes
     theme: flatly
     toc: yes
-    toc_depth: 3
+    toc_depth: 4
 bibliography: economic_concepts.bib
 link-citations: yes
 ---
@@ -50,68 +50,200 @@ We can initially approach the concept of __GDP__ by explaining the terms __"Prod
     
     + Households
 
-- __"Domestic"__: indicates that the production to be taken into account is the one that is carried within a certain geographical territory, $s$, clearly delimited. 
+- __Domestic__: indicates that the production to be taken into account is the one that is carried within a certain geographical territory, $s$, clearly delimited. 
 
     + In that sense if we use the concept of of __GDP__ we don't care who carried out the production in $t$ but only where the production was carried out in $t$ 
     
-- __"Gross"__: it means that depreciation or the cost of using capital is not deducted (in the field of economics it is called consumption of fixed capital). 
+- __Gross__: it means that depreciation is not deducted (in the field of economics it is called consumption of fixed capital). 
 
     + In other words, the decrease in the value of the assets due to physical deterioration, foreseeable wear or accidental damage is not deducted.
     
-    + Why depreciation or the cost of using capital is not deducted?
+    + Why depreciation is not deducted?
     
-        + It is a variable difficult to measure and the methods used to measure it tend to differ between countries creating problems for international comparison
+        + It is a variable difficult to measure and the methods used to measure it tend to differ between countries creating problems for international comparisons
         
-## Three equivalent ways to measure the GDP
+## Data about __GDP__ using  Colombia as an example
 
 Initially the units  in which __GDP__ is measure is in monetary units of a specific currency, $c$. Therefore $GDP_{s}^{c}(t)$ means the $GDP$ of territory $s$ in a given period $t$. To make the discussion less abstract we present a plot of $GDP$ for Colombia, $s = COL$, expressed in Colombian pesos, $c = COP$, for the years 1960 to 2019, $t = 1960, \ldots, 2019$: 
 
 ```{r, fig.width = 7, fig.height = 8}
 
-# Clean data
-gdp_colombia <- wbstats::wb(country   = "COL", 
-                             indicator = "NY.GDP.MKTP.CN", 
-                             startdate = 1960, 
-                             enddate   = 2019) %>% 
-    tibble::as_tibble() %>% 
-    dplyr::select(date, value) %>%
-    dplyr::mutate(date       = as.double(date),
-                  label_text = stringr::str_glue('Year: {date}
-                                                  GDP: {value %>% scales::dollar()}')) 
-
-# Plot
-    
-static_plot <- gdp_colombia %>%
-    # Data
-    ggplot2::ggplot(aes(x = date, y =value)) +
-    # Geoms
-    ggplot2::geom_point(aes(text = label_text),
-                        shape = 21, 
-                        color = "black", 
-                        fill  = "red") + 
-    ggplot2::geom_line(linetype = "dashed") +
-    # Scales
-    scale_x_continuous(breaks = c(1960:2019)) +
-    scale_y_continuous(breaks = seq(from = 0, to = 1.10e15, by = 1e14), 
-                       labels = scales::number_format(scale = 1/1e12, suffix = "B")) +
-    labs(x = "Year",
-         y = "GDP in current local currency [B = Billion in long scale (10^12)]",
-         title = "GDP of Colombia: 1960-2019") +
-    # Themes
-    theme(panel.border      = element_rect(fill = NA, color = "black"),
-          plot.background   = element_rect(fill = "#f3fcfc"),          
-          panel.background  = element_rect(fill = "#f3f7fc"),
-          legend.background = element_rect(fill = "#f3fcfc"), 
-          plot.title        = element_text(face = "bold"),
-          axis.text.x=element_text(angle = -90, vjust = 0.5),
-          axis.title        = element_text(face = "bold"),
-          legend.title      = element_text(face = "bold"),
-          axis.text         = element_text(face = "bold"))
-
-    # Interactivity
-    static_plot %>% 
-      plotly::ggplotly(tooltip = "text")
-    
+# # Clean data
+# gdp_colombia <- wbstats::wb(country   = "COL",
+#                              indicator = "NY.GDP.MKTP.CN",
+#                              startdate = 1960,
+#                              enddate   = 2019) %>%
+#     tibble::as_tibble() %>%
+#     dplyr::select(date, value) %>%
+#     dplyr::mutate(date       = as.double(date),
+#                   label_text = stringr::str_glue('Year: {date}
+#                                                   GDP: {value %>% scales::dollar()}'))
+# 
+# # Plot
+# 
+# static_plot <- gdp_colombia %>%
+#     # Data
+#     ggplot2::ggplot(aes(x = date, y =value)) +
+#     # Geoms
+#     ggplot2::geom_point(aes(text = label_text),
+#                         shape = 21,
+#                         color = "black",
+#                         fill  = "red") +
+#     ggplot2::geom_line(linetype = "dashed") +
+#     # Scales
+#     scale_x_continuous(breaks = c(1960:2019)) +
+#     scale_y_continuous(breaks = seq(from = 0, to = 1.10e15, by = 1e14),
+#                        labels = scales::number_format(scale = 1/1e12, suffix = "B")) +
+#     labs(x = "Year",
+#          y = "GDP in current local currency [B = Billion in long scale (10^12)]",
+#          title = "GDP of Colombia: 1960-2019") +
+#     # Themes
+#     theme(panel.border      = element_rect(fill = NA, color = "black"),
+#           plot.background   = element_rect(fill = "#f3fcfc"),
+#           panel.background  = element_rect(fill = "#f3f7fc"),
+#           legend.background = element_rect(fill = "#f3fcfc"),
+#           plot.title        = element_text(face = "bold"),
+#           axis.text.x=element_text(angle = -90, vjust = 0.5),
+#           axis.title        = element_text(face = "bold"),
+#           legend.title      = element_text(face = "bold"),
+#           axis.text         = element_text(face = "bold"))
+# 
+#     # Interactivity
+#     static_plot %>%
+#       plotly::ggplotly(tooltip = "text")
+#     
 ```
+
+## A simple economy to explain the measurement of production [@blanchard_macroeconomics_2017]
+
+- In a certain geographical territory $s$ and in a given period $t$ there exist $2$ profit-making enterprises:
+
+    + __Steel enterprise__ 
+    
+    + __Car enterprise__
+    
+        + The __Steel enterprise__ sells to the __Car enterprise__ steel. Then the __Car enterprise__ uses steel to produce cars an sell them to households located inside or outside the geographical territory $s$ 
+        
+        + In that sense the economy uses steel, machinery and labor, known as inputs of production in the field of economics , to produce a final good represented by cars where the production is divided between the owners of the $2$ enterprises who perceive an income represented by profits and the workers who perceive an income represented by wages.
+        
+- In this simple economy we do not have non-profit institutions and a government that imposes taxes to offer services and goods like public education in $t$ because the only goods produced are steel and cars. 
+
+- We also assume that production doesn't accumulate in $t$. Therefore steel is used entirely to produce cars and all the cars are consumed by households located inside or outside the geographical territory $s$. Thus, the profit-making enterprises don't accumulate inventories and distribute all the profits to the owners of the $2$ enterprises in $t$.
+
+- Finally we assume that households inside the geographical territory $s$ only consume cars produced inside the geographical territory $s$ and not cars produced outside the geographical territory $s$ in $t$. Also, the $2$ profit-making enterprises don't buy machines produce outside the geographical territory $s$ to produce steel or cars in $t$.
+
+- We can have a more realistic economy that have:
+
+    + Profit-making enterprises that acummulate inventories or don't distribute all the profits to the owners
+    
+    + Profit-making enterprises that not only produce but pollute the air or the environment
+    
+    + Non-profit institutions that by law are requiere not to distribute profits
+    
+    + Households located inside or outside the geographical territory $s$ that save part of their income and don't consume everything or that engage in illegal activities like robberies
+    
+    + Households inside the geographical territory $s$ that have children and require and education system
+    
+    + Households inside the geographical territory $s$ that consume goods and services produced outside the geographical territory $s$ 
+    
+    + A government that imposes taxes to offer services like justice and goods like public education and deliver subsidies
+    
+And many other aspects not included in this short list but the idea is to explain in a simple way the measurement of __GDP__.
+
+- The above simple economy in a certain geographical territory $s$ and in a given period $t$ can be represented in the following way using specific values to be less abstract and expressing every item in specific currency, $c$, like Colombia pesos (COP):
+
+    + __Steel enterprise__
+    
+        + Steel sales to __Car enterprise__: $100 \text{ COP}$
+        
+        + Expenses:
+        
+            + Wages: $80 \text{ COP}$
+            
+        + Profits: $20 \text{ COP}$
+        
+    + __Car enterprise__
+    
+        + Revenue from sales of cars: $200 \text{ COP}$
+        
+        + Expenses:
+        
+            + Wages: $70$ COP
+            
+            + Steel purchases to __Steel enterprise__: $100$ COP
+            
+        + Profits: $30$ COP
+        
+### Measuring production and the double counting problem
+
+- If you add in monetary terms the production of both companies you get a total of: Production __Steel enterprise__ $+$ Production __Car enterprise__ $=$ Steel sales to __Car enterprise__ $+$ Revenue from sales of cars $= 100 \text{ COP} + 200  \text{ COP} = 300 \text{ COP}$ 
+
+- If the production of the __Steel enterprise__ and the __Car enterprise__ is added, the value of steel is being added two times.
+
+- It is necessary to eliminate at some stage of the production process the value of steel in our example
+
+### Three equivalent ways to measure production and avoid the double counting problem 
+
+#### __GDP__ as the sum of value added
+
+- __GDP__ is the sum of value added in a certain geographical territory $s$ during a given period $t$ expressed in a local currency $c$.
+
+- In the field of economics the value added is the value that is added at each stage of production. It is defined as the difference between the __Production in expressed in a Monetary Terms (PMT)__ and the __Consumption of Intermediate Goods (CIG)__.
+
+    + The __PMT__ is simply the production expressed using a local currency $c$ 
+
+    + The __CIG__ is the monetary value expressed using a local currency $c$ of inputs that are completely transformed and depleted in the production process and that are used to produce other products.
+    
+        + Example of inputs that are not part of the __CIG__:
+        
+            + __Wages paid by a profit-making enterprise to its workers__: labor can be used for several periods and although its value is affected in the periods close to the age of retirement of individuals, is not fully consumed in the production process.
+            
+            + __Assets that belong to a profit-making enterprise and depreciation (consumption of fixed capital)__: assets are durable goods that can be used for several periods and although their value is affected by physical deterioration, foreseeable wear and accidental damage it is important to remember that depreciation (consumption of fixed capital) is included and not deducted in the measurement of __GDP__.
+            
+- Measuring __GDP__ as the sum of value added using our simple economy:
+            
+    + __Steel enterprise__
+    
+        + __PMT__: $100 \text{ COP}$
+        
+        + __CIG__: $0 \text{ COP}$ (Wages are not part of __CIG__)
+        
+        + __Value added__: $100 \text{ COP} - 0 \text{ COP } = 100  \text{ COP}$
+        
+    + __Car enterprise__
+    
+        + __PMT__: $200 \text{ COP}$
+        
+        + __CIG__: $100 \text{ COP}$ (Wages are not part of __CIG__)
+        
+        + __Value added__: $200 \text{ COP} - 100 \text{ COP } = 100  \text{ COP}$
+        
+    + __GDP__
+    
+        + __Total Value Added__ = __Value added Steel enterprise__ $+$ __Value added Car enterprise__ $= 100 \text{ COP} + 100 \text{ COP}  = 200 \text{ COP} =$ __GDP__
+        
+#### __GDP__ as the sum of incomes
+
+- __GDP__ is the sum of the incomes perceived by individuals in a certain geographical territory $s$ during a given period $t$ expressed in a local currency $c$.
+
+- In that sense the __GDP__ can me measure as the sum of the different incomes that individuals perceive like profits and wages
+
+- Measuring __GDP__ as the sum of incomes using our simple economy:
+
+    + __Steel enterprise__
+    
+        + __Workers income__: $80 \text{ COP}$
+        
+        + __Owners income__: $20 \text{ COP}$
+        
+    + __Car enterprise__
+    
+        + __Workers income__: $70 \text{ COP}$
+        
+        + __Owners income__: $30 \text{ COP}$
+        
+    + __GDP__
+    
+        + __Total Income__ = __Total workers income__ $+$ __Total owners income__ $= (80 \text{ COP} + 20 \text{ COP}) +  (20 \text{ COP} + 30 \text{ COP}) = 200 \text{ COP} =$ __GDP__
 
 # Bibliography
