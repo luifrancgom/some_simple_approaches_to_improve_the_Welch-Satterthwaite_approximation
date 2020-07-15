@@ -317,6 +317,10 @@ $$\begin{split}
     
     + $IM^c(t) = C_{rw}^c(t) + I_{rw}^c(t) + G_{rw}^c(t)$
     
+- Therefore we have that the goods and services demanded by individuals of a certain geographical territory, $s$ in a period $t$ must be equal to the production performed inside the geographical territory, $s$ in a period $t$ plus the imports received from the rest of the world in a period $t$:
+
+$$\underbrace{GDP_s^c(t)}_\text{Domestic Production} + \underbrace{IM^c(t)}_\text{Imports} = \underbrace{C^c(t) + I^c(t) + G^c(t) + X^c(t)}_\text{Domestic Demand}$$
+    
 ## From a simple economy with artificial data to real data
 
 Using data with annual periodicity provided by the Departamento Nacional de Estadística (DANE) from Colombia expressed in Colombian Pesos (COP) for the years $2005-2019$ we show the behavior of the __GDP__ using the three equivalent ways to measure production
@@ -345,7 +349,7 @@ readxl::read_excel(path  = "anual_national_accounts_col_2005_2019.xlsx",
     
 ```
 
-## Participacion of taxes minus subsidies and value added by sectors in the GDP
+#### Participacion of taxes minus subsidies and value added by sectors in the GDP
 
 ```{r, fig.width = 7, fig.height = 8}
 
