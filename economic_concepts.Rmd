@@ -325,7 +325,7 @@ $$\underbrace{GDP_s^c(t)}_\text{Domestic Production} + \underbrace{IM^c(t)}_\tex
 
 Using data with annual periodicity provided by the Departamento Nacional de Estadística (DANE) from Colombia expressed in Colombian Pesos (COP) for the years $2005-2019$ we show the behavior of the __GDP__ using the three equivalent ways to measure production
 
-### GDP as the sum of value added for Colombia using the ISIC [^1]
+### __GDP__ as the sum of value added for Colombia using the ISIC [^1]
 
 - In our simple economy there was no government. In the case of the data presented __GDP__ is equal to the sum of value added plus taxes minus subsidies on goods an services produced.
 
@@ -349,7 +349,7 @@ readxl::read_excel(path  = "anual_national_accounts_col_2005_2019.xlsx",
     
 ```
 
-#### Participacion of taxes minus subsidies and value added by sectors in the GDP
+#### Participation of taxes minus subsidies and value added by sectors in the GDP
 
 ```{r, fig.width = 7, fig.height = 8}
 
@@ -413,6 +413,9 @@ static_plot2 <- gdp_col_value_added %>%
         plotly::ggplotly(tooltip = "text")
     
 ```
+
+### __GDP__ as the sum of incomes for Colombia
+
 
 
 # Bibliography
