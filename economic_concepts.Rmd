@@ -32,6 +32,7 @@ knitr::opts_chunk$set(echo      = TRUE,
 ```{r libraries}
 
 library(tidyverse)
+library(tidyquant)
 library(wbstats)
 library(plotly)
 library(readxl)
@@ -327,7 +328,7 @@ Using data with annual periodicity provided by the Departamento Nacional de Esta
 
 ### __GDP__ as the sum of value added for Colombia using the ISIC [^1]
 
-- In our simple economy there was no government. In the case of the data presented __GDP__ is equal to the sum of value added plus taxes minus subsidies on goods an services produced.
+- In our simple economy there was no government. In the case of the data presented, __GDP__ is equal to the sum of value added plus taxes minus subsidies on goods an services produced.
 
 - In our simple economy there were only $2$ profit-making enterprises. In the case of the data presented the sum of value added is presented for $12$ sectors plus taxes minus subsidies on goods an services produced by these $12$ sectors. 
 
@@ -388,10 +389,10 @@ static_plot2 <- gdp_col_value_added %>%
     ggplot2::geom_col(aes(fill = ID, text = label_text),
                       color = "black") + 
     # Scales
-    scale_fill_manual(values = c("#2C3E50", "#E31A1C", "#18BC9C", "#CCBE93", 
-                                 "#A6CEE3", "#1F78B4", "#B2DF8A", "#FB9A99", 
+    scale_fill_manual(values = c("#2C3E50", "#E31A1C", "#18BC9C", "#CCBE93",
+                                 "#A6CEE3", "#1F78B4", "#B2DF8A", "#FB9A99",
                                  "#FDBF6F", "#FF7F00", "#CAB2D6", "#6A3D9A",
-                                 "#666600")) + 
+                                 "#666600")) +
     scale_y_continuous(labels = scales::percent_format()) +
     labs(x     = "Year",
          y     = "Percentage %",
@@ -416,6 +417,143 @@ static_plot2 <- gdp_col_value_added %>%
 
 ### __GDP__ as the sum of incomes for Colombia
 
+- In our simple economy there was no government. In the case of the data presented, __GDP__ includes taxes minus subsidies on goods an services produced and on imports
 
+- In our simple economy there were workers that were part of only $2$ profit-making enterprises which perceive wages. In the case of the data presented for Colombia we need to add all this wages in a category known as __compensation of employees__.
+
+- In our simple economy there was no government. In the case of the data presented for Colombia we need to take into account taxes and subsidies on production and imports in a category known as __Taxes less subsidies on production and imports__.
+
+- In our simple economy there were owners of only $2$ profit-making enterprises which perceive profits. In the case of the data presented for Colombia we need to add all this income in a category know as __Gross operating surplus and gross mixed income__ which is equal to the value added generated in the economy minus __compensation of employees__ minus __taxes on production and imports__ plus __subsidies on production and imports__
+
+#### Participation of taxes minus subsidies and income categories in the GDP
+
+```{r, fig.width = 7, fig.height = 8}
+
+# Clean data
+gdp_col_income <- readxl::read_excel(path  = "anual_national_accounts_col_2005_2019.xlsx", 
+                                          col_names = c("ID", 2005:2018),
+                                          sheet = 2, 
+                                          range = "E140:S142") %>%
+    tidyr::pivot_longer(cols     = -ID,
+                        names_to = "year",
+                        values_to = "value") %>% 
+    dplyr::arrange(year) %>% 
+    dplyr::mutate(ID = case_when(
+                            ID == "Remuneración de los asalariados" ~ "Employees compensation",
+                            ID == "Impuestos menos subvenciones sobre la producción y las importaciones" ~ "Taxes - subsidies on\nproduction and imports",
+                            ID == "Excedente de explotación bruto e ingreso mixto bruto" ~ "Gross operating surplus\nand gross mixed income",
+                            TRUE ~ ID
+                    ),
+                  ID = as.factor(ID)) %>% 
+    dplyr::group_by(year) %>% 
+    dplyr::mutate(pct_value  = value / sum(value),
+                  label_text = stringr::str_glue('Item: {ID}
+                                                  Year: {year}
+                                                  Value (Thousands of millions): {value %>% scales::dollar()}
+                                                  % of GDP: {pct_value %>% scales::percent(accuracy = 0.01)}')) %>% 
+    dplyr::ungroup()
+
+# Plot
+static_plot3 <- gdp_col_income %>% 
+    ggplot2::ggplot(aes(y = pct_value, x = year, fill = ID)) +
+    # Geoms
+    ggplot2::geom_col(aes(fill = ID, text = label_text),
+                      color = "black") + 
+    # Scales
+    scale_fill_tq() +
+    scale_y_continuous(labels = scales::percent_format()) +
+    labs(x     = "Year",
+         y     = "Percentage %",
+         fill  = " ",
+         title = "Taxes - subsidies & income categories as % of GDP") +
+    # Themes
+    ggplot2::theme(panel.border      = element_rect(fill = NA, color = "black"),
+                   plot.background   = element_rect(fill = "#f3fcfc"),
+                   panel.background  = element_rect(fill = "#f3f7fc"),
+                   legend.background = element_rect(fill = "#f3fcfc"),
+                   plot.title        = element_text(face = "bold"),
+                   axis.text.x       = element_text(angle = -90, vjust = 0.5),
+                   axis.title        = element_text(face = "bold"),
+                   legend.title      = element_text(face = "bold"),
+                   axis.text         = element_text(face = "bold"))
+
+# Interactivity
+static_plot3 %>%
+    plotly::ggplotly(tooltip = "text")
+```
+
+#### __GDP__ as the value and uses of final goods and services for Colombia
+
+- In our simple economy there was no government. In the case of the data presented, __GDP__ includes the __General government final consumption expenditure__
+
+- In our simple economy there were no non-profit institutions. In the case of the data presented, __GDP__ includes the __Non-profit institutions serving households (NPISH) final consumption expenditure__
+
+- In our simple economy there were no investments. In the case of the data presented, __GDP__ includes the __Gross capital formation__
+
+- In our simple economy there were no imports received from the rest of the world. In the case of the data presented, __GDP__ includes the __Imports__. 
+
+    + Also because we want to show a plot with the participation of different items we are going to present the composition of the domestic demand
+
+#### Participation of domestic demand categories in the GDP plus imports
+
+```{r, fig.width = 7, fig.height = 8}
+
+# Clean data
+gdp_col_demand <- readxl::read_excel(path  = "anual_national_accounts_col_2005_2019.xlsx", 
+                                          sheet = 2, 
+                                          range = "A119:T135", 
+                                          col_names = FALSE) %>%
+    dplyr::slice(c(2,5,7,16)) %>%
+    dplyr::select(-c(1:4)) %>%
+    purrr::set_names(nm = c("ID", 2005:2019)) %>%
+    mutate(`2019` = as.double(`2019`),
+           ID = case_when(
+                    ID == "Gasto de consumo final individual de los hogares; gasto de consumo final de las ISFLH1" ~ "C",
+                    ID == "Gasto de consumo final del gobierno general" ~ "G",
+                    ID == "Formación bruta de capital" ~ "I",
+                    ID == "Exportaciones" ~ "X",
+                    TRUE ~ ID)
+           ) %>% 
+    tidyr::pivot_longer(cols     = -ID,
+                        names_to = "year",
+                        values_to = "value") %>% 
+    dplyr::arrange(year) %>% 
+    dplyr::mutate(ID = forcats::as_factor(ID)) %>% 
+    dplyr::group_by(year) %>% 
+    dplyr::mutate(pct_value  = value / sum(value),
+                  label_text = stringr::str_glue('Domestic demand category: {ID}
+                                                  Year: {year}
+                                                  Value (Thousands of millions): {value %>% scales::dollar()}
+                                                  % of GDP: {pct_value %>% scales::percent(accuracy = 0.01)}')) %>% 
+    dplyr::ungroup()
+
+# Plot
+static_plot4 <- gdp_col_demand %>% 
+    ggplot2::ggplot(aes(y = pct_value, x = year, fill = ID)) +
+    # Geoms
+    ggplot2::geom_col(aes(fill = ID, text = label_text),
+                      color = "black") + 
+    # Scales
+    scale_fill_tq() +
+    scale_y_continuous(labels = scales::percent_format()) +
+    labs(x     = "Year",
+         y     = "Percentage %",
+         fill  = " ",
+         title = "Domestic demand categories as % of GDP plus imports") +
+    # Themes
+    ggplot2::theme(panel.border      = element_rect(fill = NA, color = "black"),
+                   plot.background   = element_rect(fill = "#f3fcfc"),
+                   panel.background  = element_rect(fill = "#f3f7fc"),
+                   legend.background = element_rect(fill = "#f3fcfc"),
+                   plot.title        = element_text(face = "bold"),
+                   axis.text.x       = element_text(angle = -90, vjust = 0.5),
+                   axis.title        = element_text(face = "bold"),
+                   legend.title      = element_text(face = "bold"),
+                   axis.text         = element_text(face = "bold"))
+
+# Interactivity
+static_plot4 %>%
+    plotly::ggplotly(tooltip = "text")
+```
 
 # Bibliography
