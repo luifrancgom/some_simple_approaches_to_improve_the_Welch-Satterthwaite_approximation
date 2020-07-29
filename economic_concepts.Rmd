@@ -320,7 +320,7 @@ $$\begin{split}
     
 - Therefore we have that the goods and services demanded by individuals of a certain geographical territory, $s$ in a period $t$ must be equal to the production performed inside the geographical territory, $s$ in a period $t$ plus the imports received from the rest of the world in a period $t$:
 
-$$\underbrace{GDP_s^c(t)}_\text{Domestic Production} + \underbrace{IM^c(t)}_\text{Imports} = \underbrace{C^c(t) + I^c(t) + G^c(t) + X^c(t)}_\text{Domestic Demand}$$
+$$\underbrace{GDP_s^c(t)}_\text{Domestic Production} + \underbrace{IM^c(t)}_\text{Imports} = \underbrace{C^c(t) + I^c(t) + G^c(t) + X^c(t)}_\text{Aggregate Demand}$$
     
 ## From a simple economy with artificial data to real data
 
@@ -494,7 +494,7 @@ static_plot3 %>%
 
     + Also because we want to show a plot with the participation of different items we are going to present the composition of the domestic demand
 
-#### Participation of domestic demand categories in the GDP plus imports
+#### Participation of aggregate demand categories in the GDP plus imports
 
 ```{r, fig.width = 7, fig.height = 8}
 
@@ -521,7 +521,7 @@ gdp_col_demand <- readxl::read_excel(path  = "anual_national_accounts_col_2005_2
     dplyr::mutate(ID = forcats::as_factor(ID)) %>% 
     dplyr::group_by(year) %>% 
     dplyr::mutate(pct_value  = value / sum(value),
-                  label_text = stringr::str_glue('Domestic demand category: {ID}
+                  label_text = stringr::str_glue('Aggregate demand category: {ID}
                                                   Year: {year}
                                                   Value (Thousands of millions): {value %>% scales::dollar()}
                                                   % of GDP: {pct_value %>% scales::percent(accuracy = 0.01)}')) %>% 
@@ -539,7 +539,7 @@ static_plot4 <- gdp_col_demand %>%
     labs(x     = "Year",
          y     = "Percentage %",
          fill  = " ",
-         title = "Domestic demand categories as % of GDP plus imports") +
+         title = "Aggregate demand categories as % of GDP plus imports") +
     # Themes
     ggplot2::theme(panel.border      = element_rect(fill = NA, color = "black"),
                    plot.background   = element_rect(fill = "#f3fcfc"),
