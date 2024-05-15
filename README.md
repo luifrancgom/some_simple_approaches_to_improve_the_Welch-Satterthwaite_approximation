@@ -1,2 +1,3 @@
-# Proyectos conjuntos Carlos y Pacho
-Repositorio de trabajo conjunto entre Carlos Alberto Cardozo y Luis Francisco Gomez
+# Some simple approaches to improve the Welch- Satterthwaite approximation
+
+Repository with all the necessary information to replica the article **Some simple approaches to improve the Welch- Satterthwaite approximation**
