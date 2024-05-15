@@ -1,0 +1,67 @@
+---
+title: Some simple approaches to improve the Welch- Satterthwaite approximation
+author:
+  - name: Carlos Alberto Cardozo Delgado
+    email: carlosacardozod@javeriana.edu.co
+    orcid: 0000-0002-8870-4795
+    affiliations: 
+        - name: Pontificia Universidad Javeriana
+          department: Departamento de Matemáticas
+          address: "Carrera 7 # 40 - 62"
+          city: Bogotá
+          country: Colombia
+    attributes:
+        corresponding: true
+    note: This is the first author footnote.
+  - name: Luis Francisco Gómez López
+    email: luifrancgom@gmail.com
+    orcid: 0000-0002-2877-9015
+    affiliations: 
+        - name: Universidad Militar Nueva Granada
+          department: Administración de Empresas
+          address: "Kilómetro 2, vía Cajicá-Zipaquirá"
+          city: Cajicá
+          country: Colombia
+    attributes:
+        corresponding: true
+    note: This is the first author footnote.
+abstract: |
+  In this work we propose three simple ways to improve the classical Welch-Satterthwaite (WS) approximation to the effective degree of freedom of a non-negative linear combination of $\chi^2$ distributions. The WS option is typically used in design of experiments and metrology. However, it has been pointing out in many references the multiple limitations of the inferences based on the WS approximation. Three novel  estimators of the effective degree of freedom of a non-negative linear combination of $\chi^2$ distributions are given. We also study some theoretical properties of the proposed estimators. Additionally, through several Monte Carlo simulations, we assess the bias, variance, and mean square error of the proposed estimators under (very) small and moderate sample sizes. The proposed estimators have a much better performance than the WS proposal  and his implications. Finally, two applications are presented in which the proposed estimators help to improve the performance of some interval estimation and hypothesis testing procedures.
+keywords: 
+  - Asymmetric distributions
+  - Unbiased estimation
+  - Consistent estimation
+  - Monte Carlo simulation
+date: last-modified
+bibliography: bibliography.bib
+format:
+  elsevier-pdf:
+    keep-tex: true
+    journal:
+      name: Journal Name
+      formatting: preprint
+      model: 3p
+      cite-style: authoryear
+---
+
+# Critical aspects of the WS approach
+
+@lloyd_2-sample_2013 proposed basically three numerical experiments that pointed out some weak points of the two-sample t-distribution test based on the WS approach. He assumed, in his first experiment, that the exact proportion between the variances of two population is known. In our view, it is rare in practice to known it. So, we will remake that simulation but we are not assuming that the variance proportion is known because we believe that it gives us a more realistic idea of the performance of the two-sample t-distribution test under the WS approximation.
+
+Now, we describe the plan of this initial simulation. We use the following proportions between the variances, $\rho = 2,4,6,8,10$. Also, we will assume that the two samples have the same size, $n$, and generate random samples of sizes $n = 2,3,\cdots,12$. In the next step, for each pair of $\rho$ and $n$, we will build the sampling distribution of the two-sample t-test approximation based on $R=10000$ replications but we are not using a previously calculated and fixed value of $\nu$ given by the WS approach as @lloyd_2-sample_2013 did it. Finally, we calculate the empirical proportion of ...
+
+$$R = 10000, \alpha = 0.1 \text{ and } 0.05$$
+
+$$m_1,m_2 , \text{based on a fixed n=6 and } \frac{\sigma_2^2}{\sigma_1^2} = 2$$
+
+$$t_{0.05,\hat{\nu}^j}, t_{0.95,\hat{\nu}^j},\text{where } \hat{\nu}^j \text{ is d.f calculated by the WS approach.}$$
+
+$$F_{T}: \text{\ Empirical Cumulative Distribution of the t-test}$$
+
+$$\hat{\alpha}_j = F_{T}(t_{0.05,\hat{\nu}^j}) + ( 1 - F_{T}( t_{0.95,\hat{\nu}^j})), \text{\ Type I Error based on WS approach}$$
+
+We want to assess the proportion of $\hat{\alpha}_j$ that are smaller or bigger than $\alpha$ in $d=0.1$ in a relative way:
+
+$$\frac{|\hat{\alpha}_j - \alpha|}{\alpha} > 0.1$$
+
+# References {-}
