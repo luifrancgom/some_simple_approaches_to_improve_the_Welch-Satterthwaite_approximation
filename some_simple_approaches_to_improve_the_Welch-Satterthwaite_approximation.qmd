@@ -44,6 +44,13 @@ format:
       cite-style: authoryear
 ---
 
+```{r}
+#| echo: false
+#| message: false
+library(tidyverse)
+library(kableExtra)
+```
+
 # Critical aspects of the WS approach
 
 @lloyd_2-sample_2013 proposed basically three numerical experiments that pointed out some weak points of the two-sample t-distribution test based on the WS approach. He assumed, in his first experiment, that the exact proportion between the variances of two population is known. In our view, it is rare in practice to known it. So, we will remake that simulation but we are not assuming that the variance proportion is known because we believe that it gives us a more realistic idea of the performance of the two-sample t-distribution test under the WS approximation.
@@ -63,5 +70,39 @@ $$\hat{\alpha}_j = F_{T}(t_{0.05,\hat{\nu}^j}) + ( 1 - F_{T}( t_{0.95,\hat{\nu}^
 We want to assess the proportion of $\hat{\alpha}_j$ that are smaller or bigger than $\alpha$ in $d=0.1$ in a relative way:
 
 $$\frac{|\hat{\alpha}_j - \alpha|}{\alpha} > 0.1$$
+
+```{r}
+#| echo: false
+#| message: false
+#| label: tbl-simulations-alpha
+#| tbl-cap: Proportion of replicates where the relative absolute difference between a nominal $\alpha$ and the $\alpha$-value given by WS approximation test is bigger than 0.1 where $\alpha = 0.1, 0.05.$
+
+data_table1 <- read_csv(file = "data/simulation_tbl_stacked.csv") |> 
+  select(-alpha_est) |> 
+  pivot_wider(id_cols = c(rho, alpha), 
+              names_from = n, 
+              values_from = pct_rel_dist) |> 
+  arrange(alpha, rho) |> 
+  relocate(alpha, .before = rho)
+
+data_table1 |>
+  mutate(across(.cols = `2`:`12`,
+                .fns = ~ round(x = .x, digits = 3))) |> 
+  mutate(across(.cols = `2`:`12`,
+                .fns = ~ cell_spec(x = .x,
+                                   background = if_else(condition = .x > 0.1,
+                                                        true = "#ccbe93",
+                                                        false = "white")))) |> 
+  kbl(col.names = c("$\\alpha$",
+                    "$\\rho$",
+                    2:12),
+      booktabs = TRUE,
+      escape = FALSE) |> 
+  kable_styling() |> 
+  collapse_rows(columns = 1) |>  
+  add_header_above(c(" " = 2,
+                     "$n$" = 11), 
+                   escape = FALSE)
+```
 
 # References {-}

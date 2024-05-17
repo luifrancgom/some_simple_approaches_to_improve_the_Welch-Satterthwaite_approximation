@@ -92,6 +92,20 @@
 \def\fps@figure{htbp}
 \makeatother
 
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -248,6 +262,48 @@ We want to assess the proportion of \(\hat{\alpha}_j\) that are smaller
 or bigger than \(\alpha\) in \(d=0.1\) in a relative way:
 
 \[\frac{|\hat{\alpha}_j - \alpha|}{\alpha} > 0.1\]
+
+\begin{table}
+
+\caption{\label{tbl-simulations-alpha}Proportion of replicates where the
+relative absolute difference between a nominal \(\alpha\) and the
+\(\alpha\)-value given by WS approximation test is bigger than 0.1 where
+\(\alpha = 0.1, 0.05.\)}
+
+\centering{
+
+\centering
+\begin{tabular}[t]{rrlllllllllll}
+\toprule
+\multicolumn{2}{c}{ } & \multicolumn{11}{c}{$n$} \\
+\cmidrule(l{3pt}r{3pt}){3-13}
+$\alpha$ & $\rho$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12\\
+\midrule
+ & 2 & \cellcolor[HTML]{ccbe93}{0.306} & \cellcolor[HTML]{ccbe93}{0.208} & \cellcolor{white}{0.02} & \cellcolor{white}{0.038} & \cellcolor[HTML]{ccbe93}{0.138} & \cellcolor[HTML]{ccbe93}{0.228} & \cellcolor[HTML]{ccbe93}{0.198} & \cellcolor[HTML]{ccbe93}{0.338} & \cellcolor[HTML]{ccbe93}{0.304} & \cellcolor[HTML]{ccbe93}{0.318} & \cellcolor[HTML]{ccbe93}{0.416}\\
+\cmidrule{2-13}
+ & 4 & \cellcolor{white}{0} & \cellcolor{white}{0.084} & \cellcolor[HTML]{ccbe93}{0.258} & \cellcolor[HTML]{ccbe93}{0.384} & \cellcolor[HTML]{ccbe93}{0.49} & \cellcolor[HTML]{ccbe93}{0.54} & \cellcolor[HTML]{ccbe93}{0.624} & \cellcolor[HTML]{ccbe93}{0.686} & \cellcolor[HTML]{ccbe93}{0.684} & \cellcolor[HTML]{ccbe93}{0.762} & \cellcolor[HTML]{ccbe93}{0.792}\\
+\cmidrule{2-13}
+ & 6 & \cellcolor[HTML]{ccbe93}{0.118} & \cellcolor[HTML]{ccbe93}{0.162} & \cellcolor[HTML]{ccbe93}{0.376} & \cellcolor[HTML]{ccbe93}{0.58} & \cellcolor[HTML]{ccbe93}{0.632} & \cellcolor[HTML]{ccbe93}{0.66} & \cellcolor[HTML]{ccbe93}{0.798} & \cellcolor[HTML]{ccbe93}{0.78} & \cellcolor[HTML]{ccbe93}{0.854} & \cellcolor[HTML]{ccbe93}{0.884} & \cellcolor[HTML]{ccbe93}{0.904}\\
+\cmidrule{2-13}
+ & 8 & \cellcolor[HTML]{ccbe93}{0.268} & \cellcolor[HTML]{ccbe93}{0.29} & \cellcolor[HTML]{ccbe93}{0.442} & \cellcolor[HTML]{ccbe93}{0.586} & \cellcolor[HTML]{ccbe93}{0.716} & \cellcolor[HTML]{ccbe93}{0.83} & \cellcolor[HTML]{ccbe93}{0.852} & \cellcolor[HTML]{ccbe93}{0.848} & \cellcolor[HTML]{ccbe93}{0.892} & \cellcolor[HTML]{ccbe93}{0.916} & \cellcolor[HTML]{ccbe93}{0.926}\\
+\cmidrule{2-13}
+\multirow{-5}{*}{\raggedleft\arraybackslash 0.05} & 10 & \cellcolor[HTML]{ccbe93}{0.34} & \cellcolor[HTML]{ccbe93}{0.336} & \cellcolor[HTML]{ccbe93}{0.5} & \cellcolor[HTML]{ccbe93}{0.656} & \cellcolor[HTML]{ccbe93}{0.768} & \cellcolor[HTML]{ccbe93}{0.848} & \cellcolor[HTML]{ccbe93}{0.86} & \cellcolor[HTML]{ccbe93}{0.916} & \cellcolor[HTML]{ccbe93}{0.932} & \cellcolor[HTML]{ccbe93}{0.93} & \cellcolor[HTML]{ccbe93}{0.966}\\
+\cmidrule{1-13}
+ & 2 & \cellcolor[HTML]{ccbe93}{0.165} & \cellcolor{white}{0.052} & \cellcolor{white}{0.088} & \cellcolor[HTML]{ccbe93}{0.131} & \cellcolor[HTML]{ccbe93}{0.228} & \cellcolor[HTML]{ccbe93}{0.258} & \cellcolor[HTML]{ccbe93}{0.282} & \cellcolor[HTML]{ccbe93}{0.378} & \cellcolor[HTML]{ccbe93}{0.343} & \cellcolor[HTML]{ccbe93}{0.369} & \cellcolor[HTML]{ccbe93}{0.414}\\
+\cmidrule{2-13}
+ & 4 & \cellcolor{white}{0.048} & \cellcolor[HTML]{ccbe93}{0.188} & \cellcolor[HTML]{ccbe93}{0.325} & \cellcolor[HTML]{ccbe93}{0.459} & \cellcolor[HTML]{ccbe93}{0.513} & \cellcolor[HTML]{ccbe93}{0.566} & \cellcolor[HTML]{ccbe93}{0.646} & \cellcolor[HTML]{ccbe93}{0.669} & \cellcolor[HTML]{ccbe93}{0.691} & \cellcolor[HTML]{ccbe93}{0.744} & \cellcolor[HTML]{ccbe93}{0.753}\\
+\cmidrule{2-13}
+ & 6 & \cellcolor[HTML]{ccbe93}{0.11} & \cellcolor[HTML]{ccbe93}{0.225} & \cellcolor[HTML]{ccbe93}{0.476} & \cellcolor[HTML]{ccbe93}{0.621} & \cellcolor[HTML]{ccbe93}{0.678} & \cellcolor[HTML]{ccbe93}{0.703} & \cellcolor[HTML]{ccbe93}{0.786} & \cellcolor[HTML]{ccbe93}{0.785} & \cellcolor[HTML]{ccbe93}{0.846} & \cellcolor[HTML]{ccbe93}{0.871} & \cellcolor[HTML]{ccbe93}{0.88}\\
+\cmidrule{2-13}
+ & 8 & \cellcolor[HTML]{ccbe93}{0.169} & \cellcolor[HTML]{ccbe93}{0.403} & \cellcolor[HTML]{ccbe93}{0.521} & \cellcolor[HTML]{ccbe93}{0.643} & \cellcolor[HTML]{ccbe93}{0.742} & \cellcolor[HTML]{ccbe93}{0.832} & \cellcolor[HTML]{ccbe93}{0.845} & \cellcolor[HTML]{ccbe93}{0.865} & \cellcolor[HTML]{ccbe93}{0.89} & \cellcolor[HTML]{ccbe93}{0.909} & \cellcolor[HTML]{ccbe93}{0.908}\\
+\cmidrule{2-13}
+\multirow{-5}{*}{\raggedleft\arraybackslash 0.10} & 10 & \cellcolor[HTML]{ccbe93}{0.261} & \cellcolor[HTML]{ccbe93}{0.413} & \cellcolor[HTML]{ccbe93}{0.58} & \cellcolor[HTML]{ccbe93}{0.721} & \cellcolor[HTML]{ccbe93}{0.792} & \cellcolor[HTML]{ccbe93}{0.864} & \cellcolor[HTML]{ccbe93}{0.869} & \cellcolor[HTML]{ccbe93}{0.916} & \cellcolor[HTML]{ccbe93}{0.935} & \cellcolor[HTML]{ccbe93}{0.928} & \cellcolor[HTML]{ccbe93}{0.957}\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
 
 
 \renewcommand\refname{References}
