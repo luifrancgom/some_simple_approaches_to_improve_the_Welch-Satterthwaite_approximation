@@ -70,9 +70,9 @@ set.seed(seed = 1234,
          sample.kind = "Rejection")
 
 simulation_tbl <- expand_grid(rho = rho, 
-            n = n,
-            # alpha = alpha,
-            R = 1:R) |> 
+                              n = n,
+                              # alpha = alpha,
+                              R = 1:R) |> 
   mutate(samples_m_1 = map2(.x = R, 
                             .y = n,
                             .f = ~ probdf(n = .y,
@@ -97,7 +97,8 @@ simulation_tbl <- expand_grid(rho = rho,
                     sigma2_1 = samples_sigma2_m_1, 
                     sigma2_2 = samples_sigma2_m_2, 
                     n_1 = n, n_2 = n, 
-                    null_hypothesis = null_hypothesis)) |> 
+                    null_hypothesis = null_hypothesis),
+         rho_est = samples_sigma2_m_2/samples_sigma2_m_1) |> 
   select(-c(samples_mu_m_1:samples_sigma2_m_2)) 
 
 simulation_tbl_stacked <- rep.int(x = list(simulation_tbl), 
@@ -105,7 +106,7 @@ simulation_tbl_stacked <- rep.int(x = list(simulation_tbl),
   bind_rows() |> 
   mutate(alpha = rep(x = alpha, 
                      each = nrow(simulation_tbl))) |>
-  mutate(df_ws = df_ws(rho = rho,
+  mutate(df_ws = df_ws(rho = rho_est,
                        n = n),
          t_ws_cv_lower = t_cv_lower(alpha = alpha,
                                     df = df_ws)) |> 
