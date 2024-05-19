@@ -31,7 +31,7 @@ n <- 2:12
 ### Degrees of freedom Welch–Satterthwaite approach ---- 
 df_ws <- function(n, rho) {
   
-  df <- ((n-1)*(rho+1)^2)/(rho^2+1)
+  df <- ((n - 1)*(rho + 1)^2) / (rho^2 + 1)
   
   return(df)
 }
@@ -48,7 +48,8 @@ t_cv_lower <- function(alpha, df) {
 
 ### Probability density function m_1 and m_2
 probdf <- function(n, mean, sd) {
-  rnorm(n, mean = mean, sd = sd)
+  
+  return(rnorm(n, mean = mean, sd = sd))
 }
 
 ### t-statistic
@@ -57,11 +58,14 @@ t_stat <- function(mu_1, mu_2,
                    n_1, n_2,
                    null_hypothesis) {
   
-  statistic <- ((mu_1 - mu_2) - null_hypothesis) / sqrt(x = (sigma2_1/n_1) +  (sigma2_2^2/n_2))
+  statistic <- ((mu_1 - mu_2) - null_hypothesis) / sqrt(x = (sigma2_1/n_1) + (sigma2_2/n_2))
   
   return(statistic)
   
 }
+
+# Lower bound
+d <- 0.10
 
 # Fixing seed
 set.seed(seed = 1234, 
@@ -71,7 +75,6 @@ set.seed(seed = 1234,
 
 simulation_tbl <- expand_grid(rho = rho, 
                               n = n,
-                              # alpha = alpha,
                               R = 1:R) |> 
   mutate(samples_m_1 = map2(.x = R, 
                             .y = n,
@@ -111,10 +114,12 @@ simulation_tbl_stacked <- rep.int(x = list(simulation_tbl),
          t_ws_cv_lower = t_cv_lower(alpha = alpha,
                                     df = df_ws)) |> 
   group_by(rho, n, alpha) |> 
-  summarize(alpha_est = ( (sum(t <= t_ws_cv_lower) / length(t)) +
-                          (1 - (sum(t <= -t_ws_cv_lower) / length(t))) ),
-            .groups = "drop") |> 
-  mutate(pct_rel_dist = abs(alpha - alpha_est) / alpha)
+  mutate(alpha_est = ecdf(x = t)(t_ws_cv_lower) + (1 - ecdf(x = t)(-t_ws_cv_lower))) |> 
+  ungroup() |> 
+  mutate(pct_rel_dist = (abs(alpha - alpha_est) / alpha) > d) |> 
+  group_by( rho, n, alpha) |> 
+  summarize(pct_greater_d = sum(pct_rel_dist) / n(),
+            .groups = "drop")
 
 # Export data ----
 simulation_tbl_stacked |> 
