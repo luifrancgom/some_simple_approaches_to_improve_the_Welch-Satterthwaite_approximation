@@ -85,17 +85,17 @@ data_table1 <- read_csv(file = "data/simulation_tbl_stacked.csv") |>
   relocate(alpha, .before = rho)
 
 data_table1 |>
-  # mutate(across(.cols = `2`:`12`,
-  #               .fns = ~ round(x = .x, digits = 3))) |> 
+  # mutate(across(.cols = `2`:`14`,
+  #               .fns = ~ round(x = .x, digits = 2))) |>
   kbl(col.names = c("$\\alpha$",
                     "$\\rho$",
-                    2:12),
+                    2:14),
       booktabs = TRUE,
       escape = FALSE) |> 
-  kable_styling() |> 
+  kable_styling(font_size = 7) |> 
   collapse_rows(columns = 1) |>  
   add_header_above(c(" " = 2,
-                     "$n$" = 11), 
+                     "$n$" = 13), 
                    escape = FALSE)
 ```
 
