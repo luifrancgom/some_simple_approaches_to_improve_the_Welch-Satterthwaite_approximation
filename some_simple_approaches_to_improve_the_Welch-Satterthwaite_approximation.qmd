@@ -2,29 +2,15 @@
 title: Some simple approaches to improve the Welch- Satterthwaite approximation
 author:
   - name: Carlos Alberto Cardozo Delgado
-    email: carlosacardozod@javeriana.edu.co
-    orcid: 0000-0002-8870-4795
+    acknowledgements: | 
+      The authors gratefully acknowledge _please remember to list all relevant funding sources in the non-anonymized (unblinded) version_.
     affiliations: 
         - name: Pontificia Universidad Javeriana
           department: Departamento de Matemáticas
-          address: "Carrera 7 # 40 - 62"
-          city: Bogotá
-          country: Colombia
-    attributes:
-        corresponding: true
-    note: This is the first author footnote.
   - name: Luis Francisco Gómez López
-    email: luifrancgom@gmail.com
-    orcid: 0000-0002-2877-9015
     affiliations: 
         - name: Universidad Militar Nueva Granada
           department: Administración de Empresas
-          address: "Kilómetro 2, vía Cajicá-Zipaquirá"
-          city: Cajicá
-          country: Colombia
-    attributes:
-        corresponding: true
-    note: This is the first author footnote.
 abstract: |
   In this work we propose three simple ways to improve the classical Welch-Satterthwaite (WS) approximation to the effective degree of freedom of a non-negative linear combination of $\chi^2$ distributions. The WS option is typically used in design of experiments and metrology. However, it has been pointing out in many references the multiple limitations of the inferences based on the WS approximation. Three novel  estimators of the effective degree of freedom of a non-negative linear combination of $\chi^2$ distributions are given. We also study some theoretical properties of the proposed estimators. Additionally, through several Monte Carlo simulations, we assess the bias, variance, and mean square error of the proposed estimators under (very) small and moderate sample sizes. The proposed estimators have a much better performance than the WS proposal  and his implications. Finally, two applications are presented in which the proposed estimators help to improve the performance of some interval estimation and hypothesis testing procedures.
 keywords: 
@@ -35,13 +21,11 @@ keywords:
 date: last-modified
 bibliography: bibliography.bib
 format:
-  elsevier-pdf:
-    keep-tex: true
+  jasa-pdf:
+    keep-tex: true  
     journal:
-      name: Journal Name
-      formatting: preprint
-      model: 3p
-      cite-style: authoryear
+      blinded: false
+  jasa-html: default
 ---
 
 ```{r}
@@ -49,54 +33,127 @@ format:
 #| message: false
 library(tidyverse)
 library(kableExtra)
+library(latex2exp)
+library(tidyquant)
 ```
 
-# Critical aspects of the WS approach
+## Introduction {#sec-intro}
 
-@lloyd_2-sample_2013 proposed basically three numerical experiments that pointed out some weak points of the two-sample t-distribution test based on the WS approach. He assumed, in his first experiment, that the exact proportion between the variances of two population is known. In our view, it is rare in practice to known it. So, we will remake that simulation but we are not assuming that the variance proportion is known because we believe that it gives us a more realistic idea of the performance of the two-sample t-distribution test under the WS approximation.
 
-Now, we describe the plan of this initial simulation. We use the following proportions between the variances, $\rho = 2,4,6,8,10$. Also, we will assume that the two samples have the same size, $n$, and generate random samples of sizes $n = 2,3,\cdots,12$. In the next step, for each pair of $\rho$ and $n$, we will build the sampling distribution of the two-sample t-test approximation based on $R=10000$ replications but we are not using a previously calculated and fixed value of $\nu$ given by the WS approach as @lloyd_2-sample_2013 did it. Finally, we calculate the empirical proportion of ...
+## Critical aspects of the WS approach
 
-$$R = 10000, \alpha = 0.1 \text{ and } 0.05$$
+@lloyd_2-sample_2013 conducted three numerical experiments highlighting potential limitations of the two-sample t-test when using the Welch-Satterthwaite (WS) approximation. Notably, in their first experiment, @lloyd_2-sample_2013 assumed that the ratio of population variances was known. However, in practice, this information is rarely available. Therefore, we will replicate this simulation without assuming a known variance ratio, providing a more realistic assessment of the two-sample t-test's performance under the WS approximation.
 
-$$m_1,m_2 , \text{based on a fixed n=6 and } \frac{\sigma_2^2}{\sigma_1^2} = 2$$
+We now outline the initial simulation plan associated with the two-sample t-test statistic, $T = \frac{\overline{X} - \overline{Y} - (\mu_1 - \mu_2)}{\sqrt{\frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\sigma}^2_2}{n_2}}}$. Let $X_1, X_2, \ldots, X_{n_1} \overset{\text{iid}}{\sim} \mathcal{N}(\mu_1, \sigma_1^2)$ and $Y_1, Y_2, \ldots, Y_{n_2} \overset{\text{iid}}{\sim} \mathcal{N}(\mu_2, \sigma_2^2)$ where $\mathbf{X} = (X_1, X_2, \ldots, X_{n_1})$ and $\mathbf{Y} = (Y_1, Y_2, \ldots, Y_{n_2})$ are 2 independent random vectors. We assume the following parameters:
 
-$$t_{0.05,\hat{\nu}^j}, t_{0.95,\hat{\nu}^j},\text{where } \hat{\nu}^j \text{ is d.f calculated by the WS approach.}$$
+-   $\mu_1 = 1$ and $\mu_2 = 2$.
+-   $\sigma^2_1 = 1$ and varying variance ratios, $\frac{\sigma^2_2}{\sigma^2_1} \equiv \rho = 2, 4, 6, 8, 10, 12$.
+-   $n_1$ takes values $n_1 = 2, 3, \ldots, 14$, with sample size ratios, $\frac{n_2}{n_1} \equiv k = 1, 2, 4$.
 
-$$F_{T}: \text{\ Empirical Cumulative Distribution of the t-test}$$
+For each combination of $(\rho, n_1, k)$, we construct the sampling distribution of the two-sample t-test statistic based on $R = 10000$ replications. In contrast to @lloyd_2-sample_2013, we do not pre-calculate and fix the degrees of freedom, $\nu$, using the WS approach. Instead, for each replication, we estimate the degrees of freedom, denoted by $\widehat{\nu}$, using the WS approach (see @sec-df-ws for details). Next, we determine the lower and upper critical values, $t_{\alpha,\widehat{\nu}}$ and  $t_{1-\alpha,\widehat{\nu}}$, respectively for $\alpha = 0.05, 0.10$ to calculate the corresponding type I error rates based on the WS approach as[^type-I-error-ws]: 
 
-$$\hat{\alpha}_j = F_{T}(t_{0.05,\hat{\nu}^j}) + ( 1 - F_{T}( t_{0.95,\hat{\nu}^j})), \text{\ Type I Error based on WS approach}$$
+$$\widehat{\alpha}_j = F_{T}\left(t_{\alpha,\widehat{\nu}}\right) + \left(1 - F_{T}\left(t_{1-\alpha,\widehat{\nu}}\right)\right) \text{ for } j = 1, 2, \ldots, 468$$ {#eq-type-I-error-rates}
 
-We want to assess the proportion of $\hat{\alpha}_j$ that are smaller or bigger than $\alpha$ in $d=0.1$ in a relative way:
+[^type-I-error-ws]: The index $j$ takes on values from $1$ to $468$ because $\rho$ takes $6$, $n_1$ $13$, $k$ $3$ and $\alpha$ $2$ values. Therefore $\widehat{\alpha}_j$ can take $468$ values.
 
-$$\frac{|\hat{\alpha}_j - \alpha|}{\alpha} > 0.1$$
+Finally, to assess the accuracy of the estimated type I error rates, we calculate the relative difference between each $\widehat{\alpha}_j$  and the corresponding true significance level $\alpha$ and compare it to a threshold of $d=0.10$:
+
+$$\frac{|\widehat{\alpha}_j - \alpha|}{\alpha} > d = 0.10$$ {#eq-pro-rel-alpha}
+
+where $F_T$ represents the empirical cumulative distribution function of the two-sample t-test statistic. @tbl-sim-pro-rel-alpha presents the results for the combination $(\rho, n_1, k, \alpha)$. @fig-sim-pro-rel-alpha provides a visual representation of these results.
 
 ```{r}
 #| echo: false
 #| message: false
-#| label: tbl-simulations-alpha
-#| tbl-cap: Proportion of replicates where the relative absolute difference between a nominal $\alpha$ and the $\alpha$-value given by WS approximation test is bigger than 0.1 where $\alpha = 0.1, 0.05.$
+#| label: tbl-sim-pro-rel-alpha
+#| tbl-cap: Proportion of replicates where the relative absolute difference between a nominal $\alpha$ and the $\alpha$-value given by WS approximation test is bigger than $d=0.10$ where $\alpha = 0.1, 0.05$
 
-data_table1 <- read_csv(file = "data/simulation_tbl_stacked.csv") |> 
-  pivot_wider(id_cols = c(rho, alpha), 
-              names_from = n, 
+simulation_tbl_stacked <- read_csv(file = "data/simulation_tbl_stacked.csv")
+
+data_table1 <- simulation_tbl_stacked |> 
+  pivot_wider(id_cols = c(rho, alpha, k), 
+              names_from = n_1, 
               values_from = pct_greater_d) |> 
-  arrange(alpha, rho) |> 
-  relocate(alpha, .before = rho)
+  arrange(alpha, k, rho) |> 
+  relocate(c(alpha, k), .before = rho)
 
 data_table1 |>
-  # mutate(across(.cols = `2`:`14`,
-  #               .fns = ~ round(x = .x, digits = 2))) |>
+  mutate(across(.cols = `2`:`14`,
+                .fns = \(x) round(x = x, digits = 4))) |>
   kbl(col.names = c("$\\alpha$",
+                    "$k$",
                     "$\\rho$",
                     2:14),
       booktabs = TRUE,
-      escape = FALSE) |> 
-  kable_styling(font_size = 7) |> 
-  collapse_rows(columns = 1) |>  
-  add_header_above(c(" " = 2,
-                     "$n$" = 13), 
+      escape = FALSE,
+      longtable = TRUE) |> 
+  kable_styling(font_size = 7,
+                latex_options = c("repeat_header",
+                                  "hold_position")) |> 
+  collapse_rows(columns = 1:2) |>  
+  add_header_above(c(" " = 3,
+                     "$n_1$" = 13), 
                    escape = FALSE)
 ```
 
-# References {-}
+```{r}
+#| echo: false
+#| message: false
+#| fig-align: center
+#| fig-height: 7
+#| fig-width: 7
+#| label: fig-sim-pro-rel-alpha
+#| fig-cap: Graphical representation of @tbl-sim-pro-rel-alpha
+#| fig-pos: h
+
+figure_table1 <- simulation_tbl_stacked |> 
+  mutate(across(.cols = c(k, rho, alpha), 
+                .fns = as.factor))
+
+levels(figure_table1$k) <- c(TeX(r'($k=1$)'), 
+                             TeX(r'($k=2$)'), 
+                             TeX(r'($k=4$)'))
+levels(figure_table1$alpha) <- c(TeX(r'($\alpha=0.05$)'), 
+                                 TeX(r'($\alpha=0.10$)'))
+
+figure_table1 |> 
+  ggplot(aes(x = n_1, y = pct_greater_d)) + 
+  geom_line(aes(color = factor(x = rho)),
+            linewidth = 0.5) + 
+  facet_wrap(facets = vars(k, alpha),
+             nrow = 3,
+             labeller = label_parsed) + 
+  scale_color_tq() +
+  scale_x_continuous(breaks = 2:14) +
+  labs(x = TeX(r'($n_1$)'),
+       y = TeX(r'($\frac{|\widehat{\alpha}_j - \alpha|}{\alpha} > d = 0.1$)'),
+       color = TeX(r'($\rho$)'))
+```
+
+## Conclusion {#sec-conc}
+
+
+## Appendix {.appendix}
+
+### Degrees of freedom estimated by the WS approach {#sec-df-ws}
+
+In our case, following @satterthwaite_approximate_1946 and @welch_generalization_1947, the degrees of freedom $\widehat{\nu}$  can be expressed as:
+
+$$\begin{split}
+  \widehat{\nu} & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\sigma}^2_2}{n_2} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{n_2-1} \left( \frac{\widehat{\sigma}^2_2}{n_2} \right)^2} \\
+  & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\rho\widehat{\sigma}^2_1}{kn_1} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{kn_1-1} \left( \frac{\rho\widehat{\sigma}^2_1}{kn_1} \right)^2} \\
+  & = \frac{(n_1-1)(kn_1-1)(k+\rho)^2}{(kn_1-1)k^2 + (n_1-1)\rho^2}
+  \end{split}$$ {#eq-df-ws}
+
+
+## Supplementary Material {.supplementary}
+
+001_simulation_script.R
+
+:   R script used to produce the simulation results presented in @tbl-sim-pro-rel-alpha and @fig-sim-pro-rel-alpha
+
+simulation_tbl_stacked.csv
+
+:   Simulated dataset [@tbl-sim-pro-rel-alpha] 
+
+## References {-}

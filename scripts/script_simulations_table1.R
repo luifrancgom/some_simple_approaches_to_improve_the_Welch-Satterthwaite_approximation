@@ -29,12 +29,13 @@ ws_simulation <- function(mu_m_1 = 1,
   ## Sample size ----
   
   ### Size of the m_1 samples
-  n_1 <- 2:14
+  n_1 <- n_1
   
   ### Proportion between the samples size: n_2 / n_1 = k
-  k <- 1
+  k <- k
   
   ## Degrees of freedom Welch–Satterthwaite approach ----
+  ### nu in the paper
   df_ws <- function(n_1, rho, k) {
     
     df <- ((n_1 - 1)*(k*n_1 - 1)*(k + rho)^2) / ((k*n_1 - 1)*k^2 + (n_1 - 1)*rho^2)
@@ -93,7 +94,6 @@ ws_simulation <- function(mu_m_1 = 1,
            sample.kind = "Rejection")
   
   # Simulations ----
-  
   simulation_tbl <- expand_grid(rho = rho, 
                                 n_1 = n_1,
                                 R = 1:R) |> 
@@ -148,7 +148,17 @@ ws_simulation <- function(mu_m_1 = 1,
 }
 
 # Export data ----
-ws_simulation() |> 
+c(1,2,4) |>
+      # New anonymous function notation
+      ## ?`function`
+      ### \(x) x + 1
+      #### Equivalent to function(x) x + 1 
+  map(.f = \(x) ws_simulation(k = x)) |> 
+  set_names(nm = c(1, 2, 4)) |> 
+  bind_rows(.id = "k") |> 
+  mutate(k = as.integer(x = k))  |> 
   write_csv(file = "data/simulation_tbl_stacked.csv")
 
+# Checking ----
+read_csv(file = "data/simulation_tbl_stacked.csv")
   
