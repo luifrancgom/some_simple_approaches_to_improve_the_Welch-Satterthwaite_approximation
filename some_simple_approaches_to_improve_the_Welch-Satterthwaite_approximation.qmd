@@ -62,7 +62,7 @@ Finally, to assess the accuracy of the estimated type I error rates, we calculat
 
 $$\frac{|\widehat{\alpha}_j - \alpha|}{\alpha} > d = 0.10$$ {#eq-pro-rel-alpha}
 
-tbl-sim-pro-rel-alpha-005 and tbl-sim-pro-rel-alpha-010 present the results for the combination $(\rho, n_1, k)$ for $\alpha = 0.05$ and $\alpha = 0.10$. @fig-sim-pro-rel-alpha provides a visual representation of these results.
+@tbl-sim-pro-rel-alpha-005 and @tbl-sim-pro-rel-alpha-010 present the results for the combination $(\rho, n_1, k)$ for $\alpha = 0.05$ and $\alpha = 0.10$. Also @fig-sim-pro-rel-alpha visually represents these results, demonstrating that the accuracy of the estimated type I error rates generally improves as  $n_1$ increases and $k$ decreases. However, the effect of the variance ratio, $\rho$, on accuracy is not as clear-cut and warrants further investigation.
 
 ```{r}
 #| echo: false
