@@ -257,7 +257,7 @@ vectors. We assume the following parameters:
   \(\sigma^2_1 = 1\) and varying variance ratios,
   \(\frac{\sigma^2_2}{\sigma^2_1} \equiv \rho = 2, 4, 6, 8, 10, 12\).
 \item
-  \(n_1\) takes values \(n_1 = 2, 3, \ldots, 14\), with sample size
+  \(n_1\) takes values \(n_1 = 2, 3, \ldots, 11\), with sample size
   ratios, \(\frac{n_2}{n_1} \equiv k = 1, 2, 4\).
 \end{itemize}
 
@@ -272,11 +272,14 @@ upper critical values, \(t_{\alpha,\widehat{\nu}}\) and
 \(t_{1-\alpha,\widehat{\nu}}\), respectively for \(\alpha = 0.05, 0.10\)
 to calculate the corresponding type I error rates based on the WS
 approach as\footnote{The index \(j\) takes on values from \(1\) to
-  \(468\) because \(\rho\) takes \(6\), \(n_1\) \(13\), \(k\) \(3\) and
+  \(396\) because \(\rho\) takes \(6\), \(n_1\) \(10\), \(k\) \(3\) and
   \(\alpha\) \(2\) values. Therefore \(\widehat{\alpha}_j\) can take
-  \(468\) values.}:
+  \(360\) values.}:
 
-\begin{equation}\phantomsection\label{eq-type-I-error-rates}{\widehat{\alpha}_j = F_{T}\left(t_{\alpha,\widehat{\nu}}\right) + \left(1 - F_{T}\left(t_{1-\alpha,\widehat{\nu}}\right)\right) \text{ for } j = 1, 2, \ldots, 468}\end{equation}
+\begin{equation}\phantomsection\label{eq-type-I-error-rates}{\widehat{\alpha}_j = F_{T}\left(t_{\alpha,\widehat{\nu}}\right) + \left(1 - F_{T}\left(t_{1-\alpha,\widehat{\nu}}\right)\right) \text{ for } j = 1, 2, \ldots, 360}\end{equation}
+
+where \(F_T\) represents the empirical cumulative distribution function
+of the two-sample t-test statistic.
 
 Finally, to assess the accuracy of the estimated type I error rates, we
 calculate the relative difference between each \(\widehat{\alpha}_j\)
@@ -285,109 +288,138 @@ to a threshold of \(d=0.10\):
 
 \begin{equation}\phantomsection\label{eq-pro-rel-alpha}{\frac{|\widehat{\alpha}_j - \alpha|}{\alpha} > d = 0.10}\end{equation}
 
-where \(F_T\) represents the empirical cumulative distribution function
-of the two-sample t-test statistic. Table~\ref{tbl-sim-pro-rel-alpha}
-presents the results for the combination \((\rho, n_1, k, \alpha)\).
-Figure~\ref{fig-sim-pro-rel-alpha} provides a visual representation of
-these results.
+tbl-sim-pro-rel-alpha-005 and tbl-sim-pro-rel-alpha-010 present the
+results for the combination \((\rho, n_1, k)\) for \(\alpha = 0.05\) and
+\(\alpha = 0.10\). Figure~\ref{fig-sim-pro-rel-alpha} provides a visual
+representation of these results.
 
 \begingroup\fontsize{7}{9}\selectfont
 
-\begin{longtable}[t]{rrrrrrrrrrrrrrrr}
+\begin{longtable}[t]{rrrrrrrrrrrrr}
 
-\caption{\label{tbl-sim-pro-rel-alpha}Proportion of replicates where the
-relative absolute difference between a nominal \(\alpha\) and the
+\caption{\label{tbl-sim-pro-rel-alpha-005}Proportion of replicates where
+the relative absolute difference between a nominal \(\alpha\) and the
 \(\alpha\)-value given by WS approximation test is bigger than
-\(d=0.10\) where \(\alpha = 0.1, 0.05\)}
+\(d=0.10\) where \(\alpha = 0.05\)}
 
 \tabularnewline
 
 \toprule
-\multicolumn{3}{c}{ } & \multicolumn{13}{c}{$n_1$} \\
-\cmidrule(l{3pt}r{3pt}){4-16}
-$\alpha$ & $k$ & $\rho$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14\\
+\multicolumn{3}{c}{ } & \multicolumn{10}{c}{$n_1$} \\
+\cmidrule(l{3pt}r{3pt}){4-13}
+$\alpha$ & $k$ & $\rho$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
 \midrule
 \endfirsthead
-\multicolumn{16}{@{}l}{\textit{(continued)}}\\
+\multicolumn{13}{@{}l}{\textit{(continued)}}\\
 \toprule
-$\alpha$ & $k$ & $\rho$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14\\
+$\alpha$ & $k$ & $\rho$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
 \midrule
 \endhead
 
 \endfoot
 \bottomrule
 \endlastfoot
- &  & 2 & 0.8167 & 0.7278 & 0.4823 & 0.4344 & 0.3454 & 0.3640 & 0.0996 & 0.1619 & 0.2307 & 0.0263 & 0.0355 & 0.0311 & 0.0327\\
-\cmidrule{3-16}\nopagebreak
- &  & 4 & 0.8812 & 0.8185 & 0.7612 & 0.6718 & 0.4648 & 0.3742 & 0.4741 & 0.2804 & 0.1602 & 0.1177 & 0.7672 & 0.0224 & 0.0005\\
-\cmidrule{3-16}\nopagebreak
- &  & 6 & 0.9374 & 0.8681 & 0.8057 & 0.7048 & 0.5605 & 0.4985 & 0.3278 & 0.2393 & 0.1502 & 0.1876 & 0.1355 & 0.0000 & 0.2764\\
-\cmidrule{3-16}\nopagebreak
- &  & 8 & 0.9479 & 0.8708 & 0.8216 & 0.7498 & 0.5562 & 0.3923 & 0.3538 & 0.1622 & 0.0803 & 0.1163 & 0.1551 & 0.0718 & 0.0222\\
-\cmidrule{3-16}\nopagebreak
- &  & 10 & 0.9483 & 0.8683 & 0.8089 & 0.5081 & 0.4541 & 0.2961 & 0.2114 & 0.1665 & 0.1182 & 0.0506 & 0.1046 & 0.1443 & 0.0277\\
-\cmidrule{3-16}\nopagebreak
- & \multirow{-6}{*}{\raggedleft\arraybackslash 1} & 12 & 0.9507 & 0.8337 & 0.7890 & 0.7432 & 0.5647 & 0.1711 & 0.2139 & 0.1234 & 0.2052 & 0.0293 & 0.1535 & 0.0058 & 0.0008\\
-\cmidrule{2-16}\nopagebreak
- &  & 2 & 0.6179 & 0.4658 & 0.3532 & 0.2058 & 0.2722 & 0.2404 & 0.0869 & 0.1195 & 0.0194 & 0.0432 & 0.0005 & 0.0212 & 0.0001\\
-\cmidrule{3-16}\nopagebreak
- &  & 4 & 0.6605 & 0.4525 & 0.3374 & 0.0782 & 0.1883 & 0.0805 & 0.0357 & 0.0359 & 0.0594 & 0.0000 & 0.0025 & 0.0001 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 6 & 0.6871 & 0.3774 & 0.2895 & 0.0864 & 0.1181 & 0.0022 & 0.0022 & 0.0105 & 0.0006 & 0.0007 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 8 & 0.6079 & 0.4828 & 0.2353 & 0.0481 & 0.1129 & 0.0005 & 0.0002 & 0.0024 & 0.1255 & 0.0001 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 10 & 0.6460 & 0.5698 & 0.3205 & 0.0747 & 0.3035 & 0.3759 & 0.0001 & 0.0206 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- & \multirow{-6}{*}{\raggedleft\arraybackslash 2} & 12 & 0.6499 & 0.5901 & 0.5432 & 0.2027 & 0.0337 & 0.0234 & 0.0003 & 0.0005 & 0.0454 & 0.0002 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{2-16}\nopagebreak
- &  & 2 & 0.9635 & 0.9177 & 0.8081 & 0.6863 & 0.7018 & 0.4799 & 0.2746 & 0.4165 & 0.3697 & 0.3393 & 0.1927 & 0.2494 & 0.0572\\
-\cmidrule{3-16}\nopagebreak
- &  & 4 & 0.9561 & 0.8365 & 0.7511 & 0.6326 & 0.4655 & 0.4090 & 0.4557 & 0.2695 & 0.2326 & 0.0184 & 0.4717 & 0.0155 & 0.6314\\
-\cmidrule{3-16}\nopagebreak
- &  & 6 & 0.8965 & 0.3858 & 0.2982 & 0.5691 & 0.1231 & 0.0849 & 0.0924 & 0.0258 & 0.4758 & 0.1435 & 0.1359 & 0.0005 & 0.0001\\
-\cmidrule{3-16}\nopagebreak
- &  & 8 & 0.3722 & 0.3178 & 0.3098 & 0.1777 & 0.0651 & 0.0425 & 0.0396 & 0.0565 & 0.0446 & 0.0000 & 0.0001 & 0.0025 & 0.0067\\
-\cmidrule{3-16}\nopagebreak
- &  & 10 & 0.3818 & 0.2726 & 0.4143 & 0.1520 & 0.0618 & 0.0171 & 0.0480 & 0.1614 & 0.0077 & 0.0001 & 0.0001 & 0.0000 & 0.0002\\
-\cmidrule{3-16}\nopagebreak
-\multirow{-18}{*}[1\dimexpr\aboverulesep+\belowrulesep+\cmidrulewidth]{\raggedleft\arraybackslash 0.05} & \multirow{-6}{*}{\raggedleft\arraybackslash 4} & 12 & 0.3304 & 0.5526 & 0.2300 & 0.1283 & 0.0525 & 0.0298 & 0.0226 & 0.0015 & 0.0271 & 0.0321 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{1-16}\pagebreak[0]
- &  & 2 & 0.7805 & 0.5420 & 0.4423 & 0.2567 & 0.2412 & 0.1881 & 0.0066 & 0.0007 & 0.0100 & 0.0023 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 4 & 0.8475 & 0.7629 & 0.6078 & 0.3310 & 0.2239 & 0.2092 & 0.1698 & 0.0000 & 0.0149 & 0.0000 & 0.3477 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 6 & 0.8932 & 0.7518 & 0.6312 & 0.4281 & 0.3514 & 0.1369 & 0.1128 & 0.0019 & 0.0018 & 0.0000 & 0.0800 & 0.0000 & 0.1081\\
-\cmidrule{3-16}\nopagebreak
- &  & 8 & 0.9124 & 0.7944 & 0.6258 & 0.4558 & 0.2437 & 0.1706 & 0.0090 & 0.0034 & 0.0064 & 0.0000 & 0.0000 & 0.0000 & 0.0015\\
-\cmidrule{3-16}\nopagebreak
- &  & 10 & 0.9266 & 0.7692 & 0.5972 & 0.2522 & 0.1116 & 0.1387 & 0.0279 & 0.0321 & 0.0113 & 0.0090 & 0.0042 & 0.0000 & 0.0052\\
-\cmidrule{3-16}\nopagebreak
- & \multirow{-6}{*}{\raggedleft\arraybackslash 1} & 12 & 0.9180 & 0.7894 & 0.6412 & 0.4132 & 0.1348 & 0.1147 & 0.1178 & 0.0345 & 0.0732 & 0.0000 & 0.0017 & 0.0000 & 0.0033\\
-\cmidrule{2-16}\nopagebreak
- &  & 2 & 0.6344 & 0.3654 & 0.2897 & 0.1178 & 0.1178 & 0.0651 & 0.0310 & 0.0195 & 0.0008 & 0.0095 & 0.0000 & 0.0020 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 4 & 0.6267 & 0.3008 & 0.3186 & 0.0329 & 0.0423 & 0.0083 & 0.0036 & 0.0109 & 0.0022 & 0.0000 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 6 & 0.5847 & 0.3843 & 0.0561 & 0.0139 & 0.0224 & 0.0001 & 0.0008 & 0.0002 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 8 & 0.6022 & 0.3061 & 0.0440 & 0.0203 & 0.0018 & 0.0000 & 0.0000 & 0.0000 & 0.0001 & 0.0001 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 10 & 0.5117 & 0.4837 & 0.1780 & 0.0017 & 0.0011 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- & \multirow{-6}{*}{\raggedleft\arraybackslash 2} & 12 & 0.5362 & 0.4170 & 0.0237 & 0.0012 & 0.0004 & 0.0001 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{2-16}\nopagebreak
- &  & 2 & 0.9369 & 0.8413 & 0.7001 & 0.5421 & 0.4197 & 0.2251 & 0.1426 & 0.0291 & 0.3032 & 0.0107 & 0.0086 & 0.0638 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 4 & 0.9082 & 0.7168 & 0.5674 & 0.4121 & 0.0910 & 0.0710 & 0.0069 & 0.0117 & 0.0031 & 0.0004 & 0.0000 & 0.0015 & 0.0849\\
-\cmidrule{3-16}\nopagebreak
- &  & 6 & 0.8874 & 0.3280 & 0.2159 & 0.0749 & 0.0714 & 0.0275 & 0.0170 & 0.0015 & 0.0001 & 0.0000 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
- &  & 8 & 0.3385 & 0.2514 & 0.1902 & 0.0976 & 0.0191 & 0.0564 & 0.0038 & 0.0006 & 0.0050 & 0.0000 & 0.0000 & 0.0000 & 0.0077\\
-\cmidrule{3-16}\nopagebreak
- &  & 10 & 0.3412 & 0.2458 & 0.2457 & 0.0458 & 0.0291 & 0.0038 & 0.0023 & 0.0011 & 0.0004 & 0.0000 & 0.0000 & 0.0000 & 0.0000\\
-\cmidrule{3-16}\nopagebreak
-\multirow{-18}{*}[1\dimexpr\aboverulesep+\belowrulesep+\cmidrulewidth]{\raggedleft\arraybackslash 0.10} & \multirow{-6}{*}{\raggedleft\arraybackslash 4} & 12 & 0.2753 & 0.3161 & 0.0751 & 0.0422 & 0.0048 & 0.0051 & 0.0048 & 0.0001 & 0.0000 & 0.0008 & 0.0000 & 0.0000 & 0.0000\\*
+ &  & 2 & 0.861 & 0.620 & 0.500 & 0.468 & 0.428 & 0.315 & 0.086 & 0.269 & 0.086 & 0.120\\
+\cmidrule{3-13}\nopagebreak
+ &  & 4 & 0.916 & 0.846 & 0.744 & 0.618 & 0.544 & 0.483 & 0.070 & 0.167 & 0.250 & 0.143\\
+\cmidrule{3-13}\nopagebreak
+ &  & 6 & 0.925 & 0.869 & 0.785 & 0.666 & 0.596 & 0.394 & 0.458 & 0.252 & 0.185 & 0.097\\
+\cmidrule{3-13}\nopagebreak
+ &  & 8 & 0.929 & 0.890 & 0.792 & 0.699 & 0.592 & 0.290 & 0.202 & 0.156 & 0.132 & 0.197\\
+\cmidrule{3-13}\nopagebreak
+ &  & 10 & 0.949 & 0.879 & 0.762 & 0.579 & 0.477 & 0.693 & 0.177 & 0.114 & 0.042 & 0.111\\
+\cmidrule{3-13}\nopagebreak
+ & \multirow{-6}{*}{\raggedleft\arraybackslash 1} & 12 & 0.955 & 0.891 & 0.796 & 0.511 & 0.464 & 0.468 & 0.169 & 0.067 & 0.081 & 0.135\\
+\cmidrule{2-13}\nopagebreak
+ &  & 2 & 0.790 & 0.484 & 0.489 & 0.464 & 0.385 & 0.268 & 0.109 & 0.068 & 0.145 & 0.051\\
+\cmidrule{3-13}\nopagebreak
+ &  & 4 & 0.707 & 0.648 & 0.358 & 0.202 & 0.278 & 0.043 & 0.041 & 0.001 & 0.003 & 0.004\\
+\cmidrule{3-13}\nopagebreak
+ &  & 6 & 0.747 & 0.455 & 0.294 & 0.148 & 0.077 & 0.082 & 0.002 & 0.001 & 0.001 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 8 & 0.761 & 0.612 & 0.263 & 0.108 & 0.099 & 0.001 & 0.005 & 0.000 & 0.005 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 10 & 0.685 & 0.396 & 0.279 & 0.108 & 0.002 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ & \multirow{-6}{*}{\raggedleft\arraybackslash 2} & 12 & 0.678 & 0.452 & 0.272 & 0.388 & 0.002 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000\\
+\cmidrule{2-13}\nopagebreak
+ &  & 2 & 0.955 & 0.915 & 0.806 & 0.730 & 0.598 & 0.550 & 0.360 & 0.481 & 0.582 & 0.156\\
+\cmidrule{3-13}\nopagebreak
+ &  & 4 & 0.951 & 0.842 & 0.737 & 0.637 & 0.326 & 0.276 & 0.170 & 0.257 & 0.025 & 0.109\\
+\cmidrule{3-13}\nopagebreak
+ &  & 6 & 0.917 & 0.684 & 0.295 & 0.274 & 0.106 & 0.329 & 0.216 & 0.704 & 0.565 & 0.006\\
+\cmidrule{3-13}\nopagebreak
+ &  & 8 & 0.639 & 0.406 & 0.279 & 0.157 & 0.085 & 0.454 & 0.163 & 0.017 & 0.030 & 0.001\\
+\cmidrule{3-13}\nopagebreak
+ &  & 10 & 0.372 & 0.257 & 0.205 & 0.095 & 0.083 & 0.040 & 0.048 & 0.012 & 0.008 & 0.001\\
+\cmidrule{3-13}\nopagebreak
+\multirow{-18}{*}[1\dimexpr\aboverulesep+\belowrulesep+\cmidrulewidth]{\raggedleft\arraybackslash 0.05} & \multirow{-6}{*}{\raggedleft\arraybackslash 4} & 12 & 0.307 & 0.256 & 0.126 & 0.099 & 0.022 & 0.017 & 0.022 & 0.012 & 0.006 & 0.000\\*
+
+\end{longtable}
+
+\endgroup{}
+
+\begingroup\fontsize{7}{9}\selectfont
+
+\begin{longtable}[t]{rrrrrrrrrrrrr}
+
+\caption{\label{tbl-sim-pro-rel-alpha-010}Proportion of replicates where
+the relative absolute difference between a nominal \(\alpha\) and the
+\(\alpha\)-value given by WS approximation test is bigger than
+\(d=0.10\) where \(\alpha = 0.10\)}
+
+\tabularnewline
+
+\toprule
+\multicolumn{3}{c}{ } & \multicolumn{10}{c}{$n_1$} \\
+\cmidrule(l{3pt}r{3pt}){4-13}
+$\alpha$ & $k$ & $\rho$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+\midrule
+\endfirsthead
+\multicolumn{13}{@{}l}{\textit{(continued)}}\\
+\toprule
+$\alpha$ & $k$ & $\rho$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+\midrule
+\endhead
+
+\endfoot
+\bottomrule
+\endlastfoot
+ &  & 2 & 0.863 & 0.575 & 0.440 & 0.354 & 0.295 & 0.162 & 0.025 & 0.085 & 0.020 & 0.015\\
+\cmidrule{3-13}\nopagebreak
+ &  & 4 & 0.871 & 0.742 & 0.542 & 0.376 & 0.205 & 0.153 & 0.155 & 0.004 & 0.000 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 6 & 0.898 & 0.765 & 0.615 & 0.456 & 0.278 & 0.269 & 0.018 & 0.000 & 0.000 & 0.009\\
+\cmidrule{3-13}\nopagebreak
+ &  & 8 & 0.918 & 0.783 & 0.522 & 0.329 & 0.148 & 0.075 & 0.000 & 0.000 & 0.028 & 0.063\\
+\cmidrule{3-13}\nopagebreak
+ &  & 10 & 0.903 & 0.784 & 0.536 & 0.326 & 0.106 & 0.077 & 0.011 & 0.018 & 0.000 & 0.002\\
+\cmidrule{3-13}\nopagebreak
+ & \multirow{-6}{*}{\raggedleft\arraybackslash 1} & 12 & 0.919 & 0.770 & 0.650 & 0.251 & 0.269 & 0.114 & 0.013 & 0.012 & 0.026 & 0.000\\
+\cmidrule{2-13}\nopagebreak
+ &  & 2 & 0.504 & 0.433 & 0.208 & 0.120 & 0.170 & 0.136 & 0.023 & 0.004 & 0.057 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 4 & 0.645 & 0.454 & 0.149 & 0.053 & 0.094 & 0.022 & 0.030 & 0.000 & 0.000 & 0.002\\
+\cmidrule{3-13}\nopagebreak
+ &  & 6 & 0.674 & 0.248 & 0.044 & 0.069 & 0.053 & 0.004 & 0.000 & 0.000 & 0.000 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 8 & 0.634 & 0.417 & 0.020 & 0.005 & 0.004 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 10 & 0.571 & 0.305 & 0.124 & 0.144 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ & \multirow{-6}{*}{\raggedleft\arraybackslash 2} & 12 & 0.566 & 0.303 & 0.055 & 0.000 & 0.001 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000\\
+\cmidrule{2-13}\nopagebreak
+ &  & 2 & 0.934 & 0.824 & 0.681 & 0.552 & 0.372 & 0.174 & 0.174 & 0.007 & 0.054 & 0.002\\
+\cmidrule{3-13}\nopagebreak
+ &  & 4 & 0.909 & 0.714 & 0.512 & 0.407 & 0.161 & 0.196 & 0.018 & 0.018 & 0.019 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 6 & 0.726 & 0.383 & 0.197 & 0.226 & 0.032 & 0.062 & 0.040 & 0.204 & 0.000 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 8 & 0.330 & 0.327 & 0.136 & 0.101 & 0.013 & 0.007 & 0.040 & 0.000 & 0.003 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+ &  & 10 & 0.303 & 0.193 & 0.126 & 0.043 & 0.016 & 0.017 & 0.006 & 0.000 & 0.001 & 0.000\\
+\cmidrule{3-13}\nopagebreak
+\multirow{-18}{*}[1\dimexpr\aboverulesep+\belowrulesep+\cmidrulewidth]{\raggedleft\arraybackslash 0.1} & \multirow{-6}{*}{\raggedleft\arraybackslash 4} & 12 & 0.257 & 0.217 & 0.045 & 0.044 & 0.005 & 0.005 & 0.002 & 0.000 & 0.000 & 0.000\\*
 
 \end{longtable}
 
@@ -402,7 +434,8 @@ $\alpha$ & $k$ & $\rho$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14
 }
 
 \caption{\label{fig-sim-pro-rel-alpha}Graphical representation of
-Table~\ref{tbl-sim-pro-rel-alpha}}
+Table~\ref{tbl-sim-pro-rel-alpha-005} and
+Table~\ref{tbl-sim-pro-rel-alpha-010}}
 
 \end{figure}%
 
@@ -419,8 +452,8 @@ In our case, following \citet{satterthwaite_approximate_1946} and
 
 \begin{equation}\phantomsection\label{eq-df-ws}{\begin{split}
   \widehat{\nu} & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\sigma}^2_2}{n_2} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{n_2-1} \left( \frac{\widehat{\sigma}^2_2}{n_2} \right)^2} \\
-  & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\rho\widehat{\sigma}^2_1}{kn_1} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{kn_1-1} \left( \frac{\rho\widehat{\sigma}^2_1}{kn_1} \right)^2} \\
-  & = \frac{(n_1-1)(kn_1-1)(k+\rho)^2}{(kn_1-1)k^2 + (n_1-1)\rho^2}
+  & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\rho}\widehat{\sigma}^2_1}{kn_1} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{kn_1-1} \left( \frac{\widehat{\rho}\widehat{\sigma}^2_1}{kn_1} \right)^2} \text{ where } \frac{\widehat{\sigma}^2_1}{\widehat{\sigma}^2_1} \equiv \widehat{\rho} \\
+  & = \frac{(n_1-1)(kn_1-1)(k+\widehat{\rho})^2}{(kn_1-1)k^2 + (n_1-1)\widehat{\rho}^2}
   \end{split}}\end{equation}
 
 \phantomsection\label{supplementary-material}
@@ -435,9 +468,12 @@ In our case, following \citet{satterthwaite_approximate_1946} and
 \begin{description}
 \item[001\_simulation\_script.R]
 R script used to produce the simulation results presented in
-Table~\ref{tbl-sim-pro-rel-alpha} and Figure~\ref{fig-sim-pro-rel-alpha}
+Table~\ref{tbl-sim-pro-rel-alpha-005},
+Table~\ref{tbl-sim-pro-rel-alpha-010} and
+Figure~\ref{fig-sim-pro-rel-alpha}
 \item[simulation\_tbl\_stacked.csv]
-Simulated dataset Table~\ref{tbl-sim-pro-rel-alpha}
+Simulated dataset Table~\ref{tbl-sim-pro-rel-alpha-005} and
+Table~\ref{tbl-sim-pro-rel-alpha-010}
 \end{description}
 
 

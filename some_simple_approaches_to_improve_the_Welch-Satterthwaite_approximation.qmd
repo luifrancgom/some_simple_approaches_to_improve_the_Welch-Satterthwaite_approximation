@@ -48,42 +48,45 @@ We now outline the initial simulation plan associated with the two-sample t-test
 
 -   $\mu_1 = 1$ and $\mu_2 = 2$.
 -   $\sigma^2_1 = 1$ and varying variance ratios, $\frac{\sigma^2_2}{\sigma^2_1} \equiv \rho = 2, 4, 6, 8, 10, 12$.
--   $n_1$ takes values $n_1 = 2, 3, \ldots, 14$, with sample size ratios, $\frac{n_2}{n_1} \equiv k = 1, 2, 4$.
+-   $n_1$ takes values $n_1 = 2, 3, \ldots, 11$, with sample size ratios, $\frac{n_2}{n_1} \equiv k = 1, 2, 4$.
 
 For each combination of $(\rho, n_1, k)$, we construct the sampling distribution of the two-sample t-test statistic based on $R = 10000$ replications. In contrast to @lloyd_2-sample_2013, we do not pre-calculate and fix the degrees of freedom, $\nu$, using the WS approach. Instead, for each replication, we estimate the degrees of freedom, denoted by $\widehat{\nu}$, using the WS approach (see @sec-df-ws for details). Next, we determine the lower and upper critical values, $t_{\alpha,\widehat{\nu}}$ and  $t_{1-\alpha,\widehat{\nu}}$, respectively for $\alpha = 0.05, 0.10$ to calculate the corresponding type I error rates based on the WS approach as[^type-I-error-ws]: 
 
-$$\widehat{\alpha}_j = F_{T}\left(t_{\alpha,\widehat{\nu}}\right) + \left(1 - F_{T}\left(t_{1-\alpha,\widehat{\nu}}\right)\right) \text{ for } j = 1, 2, \ldots, 468$$ {#eq-type-I-error-rates}
+$$\widehat{\alpha}_j = F_{T}\left(t_{\alpha,\widehat{\nu}}\right) + \left(1 - F_{T}\left(t_{1-\alpha,\widehat{\nu}}\right)\right) \text{ for } j = 1, 2, \ldots, 360$$ {#eq-type-I-error-rates}
 
-[^type-I-error-ws]: The index $j$ takes on values from $1$ to $468$ because $\rho$ takes $6$, $n_1$ $13$, $k$ $3$ and $\alpha$ $2$ values. Therefore $\widehat{\alpha}_j$ can take $468$ values.
+where $F_T$ represents the empirical cumulative distribution function of the two-sample t-test statistic.
+
+[^type-I-error-ws]: The index $j$ takes on values from $1$ to $396$ because $\rho$ takes $6$, $n_1$ $10$, $k$ $3$ and $\alpha$ $2$ values. Therefore $\widehat{\alpha}_j$ can take $360$ values.
 
 Finally, to assess the accuracy of the estimated type I error rates, we calculate the relative difference between each $\widehat{\alpha}_j$  and the corresponding true significance level $\alpha$ and compare it to a threshold of $d=0.10$:
 
 $$\frac{|\widehat{\alpha}_j - \alpha|}{\alpha} > d = 0.10$$ {#eq-pro-rel-alpha}
 
-where $F_T$ represents the empirical cumulative distribution function of the two-sample t-test statistic. @tbl-sim-pro-rel-alpha presents the results for the combination $(\rho, n_1, k, \alpha)$. @fig-sim-pro-rel-alpha provides a visual representation of these results.
+tbl-sim-pro-rel-alpha-005 and tbl-sim-pro-rel-alpha-010 present the results for the combination $(\rho, n_1, k)$ for $\alpha = 0.05$ and $\alpha = 0.10$. @fig-sim-pro-rel-alpha provides a visual representation of these results.
 
 ```{r}
 #| echo: false
 #| message: false
-#| label: tbl-sim-pro-rel-alpha
-#| tbl-cap: Proportion of replicates where the relative absolute difference between a nominal $\alpha$ and the $\alpha$-value given by WS approximation test is bigger than $d=0.10$ where $\alpha = 0.1, 0.05$
+#| label: tbl-sim-pro-rel-alpha-005
+#| tbl-cap: Proportion of replicates where the relative absolute difference between a nominal $\alpha$ and the $\alpha$-value given by WS approximation test is bigger than $d=0.10$ where $\alpha = 0.05$
 
 simulation_tbl_stacked <- read_csv(file = "data/simulation_tbl_stacked.csv")
 
-data_table1 <- simulation_tbl_stacked |> 
+data_table <- simulation_tbl_stacked |> 
   pivot_wider(id_cols = c(rho, alpha, k), 
               names_from = n_1, 
               values_from = pct_greater_d) |> 
   arrange(alpha, k, rho) |> 
   relocate(c(alpha, k), .before = rho)
 
-data_table1 |>
-  mutate(across(.cols = `2`:`14`,
-                .fns = \(x) round(x = x, digits = 4))) |>
+data_table |>
+  filter(alpha == 0.05) |> 
+  mutate(across(.cols = `2`:`11`,
+                .fns = \(x) round(x = x, digits = 3))) |>
   kbl(col.names = c("$\\alpha$",
                     "$k$",
                     "$\\rho$",
-                    2:14),
+                    2:11),
       booktabs = TRUE,
       escape = FALSE,
       longtable = TRUE) |> 
@@ -92,7 +95,33 @@ data_table1 |>
                                   "hold_position")) |> 
   collapse_rows(columns = 1:2) |>  
   add_header_above(c(" " = 3,
-                     "$n_1$" = 13), 
+                     "$n_1$" = 10), 
+                   escape = FALSE)
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: tbl-sim-pro-rel-alpha-010
+#| tbl-cap: Proportion of replicates where the relative absolute difference between a nominal $\alpha$ and the $\alpha$-value given by WS approximation test is bigger than $d=0.10$ where $\alpha = 0.10$
+
+data_table |>
+  filter(alpha == 0.10) |> 
+  mutate(across(.cols = `2`:`11`,
+                .fns = \(x) round(x = x, digits = 3))) |>
+  kbl(col.names = c("$\\alpha$",
+                    "$k$",
+                    "$\\rho$",
+                    2:11),
+      booktabs = TRUE,
+      escape = FALSE,
+      longtable = TRUE) |> 
+  kable_styling(font_size = 7,
+                latex_options = c("repeat_header",
+                                  "hold_position")) |> 
+  collapse_rows(columns = 1:2) |>  
+  add_header_above(c(" " = 3,
+                     "$n_1$" = 10), 
                    escape = FALSE)
 ```
 
@@ -103,7 +132,7 @@ data_table1 |>
 #| fig-height: 7
 #| fig-width: 7
 #| label: fig-sim-pro-rel-alpha
-#| fig-cap: Graphical representation of @tbl-sim-pro-rel-alpha
+#| fig-cap: Graphical representation of @tbl-sim-pro-rel-alpha-005 and @tbl-sim-pro-rel-alpha-010
 #| fig-pos: h
 
 figure_table1 <- simulation_tbl_stacked |> 
@@ -124,7 +153,7 @@ figure_table1 |>
              nrow = 3,
              labeller = label_parsed) + 
   scale_color_tq() +
-  scale_x_continuous(breaks = 2:14) +
+  scale_x_continuous(breaks = 2:11) +
   labs(x = TeX(r'($n_1$)'),
        y = TeX(r'($\frac{|\widehat{\alpha}_j - \alpha|}{\alpha} > d = 0.1$)'),
        color = TeX(r'($\rho$)'))
@@ -141,8 +170,8 @@ In our case, following @satterthwaite_approximate_1946 and @welch_generalization
 
 $$\begin{split}
   \widehat{\nu} & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\sigma}^2_2}{n_2} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{n_2-1} \left( \frac{\widehat{\sigma}^2_2}{n_2} \right)^2} \\
-  & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\rho\widehat{\sigma}^2_1}{kn_1} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{kn_1-1} \left( \frac{\rho\widehat{\sigma}^2_1}{kn_1} \right)^2} \\
-  & = \frac{(n_1-1)(kn_1-1)(k+\rho)^2}{(kn_1-1)k^2 + (n_1-1)\rho^2}
+  & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\rho}\widehat{\sigma}^2_1}{kn_1} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{kn_1-1} \left( \frac{\widehat{\rho}\widehat{\sigma}^2_1}{kn_1} \right)^2} \text{ where } \frac{\widehat{\sigma}^2_1}{\widehat{\sigma}^2_1} \equiv \widehat{\rho} \\
+  & = \frac{(n_1-1)(kn_1-1)(k+\widehat{\rho})^2}{(kn_1-1)k^2 + (n_1-1)\widehat{\rho}^2}
   \end{split}$$ {#eq-df-ws}
 
 
@@ -150,10 +179,10 @@ $$\begin{split}
 
 001_simulation_script.R
 
-:   R script used to produce the simulation results presented in @tbl-sim-pro-rel-alpha and @fig-sim-pro-rel-alpha
+:   R script used to produce the simulation results presented in @tbl-sim-pro-rel-alpha-005, @tbl-sim-pro-rel-alpha-010 and @fig-sim-pro-rel-alpha
 
 simulation_tbl_stacked.csv
 
-:   Simulated dataset [@tbl-sim-pro-rel-alpha] 
+:   Simulated dataset @tbl-sim-pro-rel-alpha-005 and @tbl-sim-pro-rel-alpha-010  
 
 ## References {-}
