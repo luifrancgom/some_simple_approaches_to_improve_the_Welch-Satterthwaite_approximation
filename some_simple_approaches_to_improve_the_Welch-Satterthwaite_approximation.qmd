@@ -56,7 +56,7 @@ $$\widehat{\alpha}_j = F_{T}\left(t_{\alpha,\widehat{\nu}}\right) + \left(1 - F_
 
 where $F_T$ represents the empirical cumulative distribution function of the two-sample t-test statistic.
 
-[^type-I-error-ws]: The index $j$ takes on values from $1$ to $396$ because $\rho$ takes $6$, $n_1$ $10$, $k$ $3$ and $\alpha$ $2$ values. Therefore $\widehat{\alpha}_j$ can take $360$ values.
+[^type-I-error-ws]: The index $j$ takes on values from $1$ to $360$ because $\rho$ takes $6$, $n_1$ $10$, $k$ $3$ and $\alpha$ $2$ values. Therefore $\widehat{\alpha}_j$ can take $360$ values.
 
 Finally, to assess the accuracy of the estimated type I error rates, we calculate the relative difference between each $\widehat{\alpha}_j$  and the corresponding true significance level $\alpha$ and compare it to a threshold of $d=0.10$:
 
