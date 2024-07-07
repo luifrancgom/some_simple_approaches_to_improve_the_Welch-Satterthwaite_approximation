@@ -69,8 +69,8 @@ labels_scale_x <- c(TeX(r'($0.9\alpha = 0.045$)'),
                     TeX(r'($1.1\alpha = 0.055$)'))
 
 p2 <- simulation_filter_tbl |> 
-  ggplot(aes(x = alpha_est), 
-         y = after_stat(count) / sum(after_stat(count))) + 
+  ggplot(aes(x = alpha_est,
+             y = after_stat(count) / sum(after_stat(count)))) + 
   geom_histogram(color = "black",
                  bins = bins) + 
   geom_vline(xintercept = breaks_scale_x[c(1,3)],
