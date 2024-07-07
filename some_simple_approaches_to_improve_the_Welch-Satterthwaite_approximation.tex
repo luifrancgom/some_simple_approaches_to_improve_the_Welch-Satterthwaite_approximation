@@ -150,6 +150,7 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
+
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -172,6 +173,7 @@ estimation, Monte Carlo simulation},
   pdfcreator={LaTeX via pandoc}}
 
 
+
 \begin{document}
 
 
@@ -181,7 +183,7 @@ estimation, Monte Carlo simulation},
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\date{June 26, 2024}
+\date{July 6, 2024}
 \title{\bf Some simple approaches to improve the Welch- Satterthwaite
 approximation}
 \author{
@@ -222,6 +224,7 @@ estimation, Consistent estimation, Monte Carlo simulation
 
 \newpage
 \spacingset{1.9} % DON'T change the spacing!
+
 
 \section{Introduction}\label{sec-intro}
 
@@ -268,29 +271,28 @@ pre-calculate and fix the degrees of freedom, \(\nu\), using the WS
 approach. Instead, for each replication, we estimate the degrees of
 freedom, denoted by \(\widehat{\nu}\), using the WS approach (see
 Section~\ref{sec-df-ws} for details). Next, we determine the lower and
-upper critical values, \(t_{\alpha,\widehat{\nu}}\) and
-\(t_{1-\alpha,\widehat{\nu}}\), respectively for \(\alpha = 0.05, 0.10\)
-to calculate the corresponding type I error rates based on the WS
-approach as\footnote{The index \(j\) takes on values from \(1\) to
-  \(360\) because \(\rho\) takes \(6\), \(n_1\) \(10\), \(k\) \(3\) and
-  \(\alpha\) \(2\) values. Therefore \(\widehat{\alpha}_j\) can take
-  \(360\) values.}:
+upper critical values, \(t_{\frac{\alpha}{2},\widehat{\nu}}\) and
+\(t_{1-\frac{\alpha}{2},\widehat{\nu}}\), respectively for
+\(\alpha = 0.05, 0.10\) to calculate the corresponding type I error
+rates for each combination of \((\rho, n_1, k)\) based on the WS
+approach as:
 
-\begin{equation}\phantomsection\label{eq-type-I-error-rates}{\widehat{\alpha}_j = F_{T}\left(t_{\alpha,\widehat{\nu}}\right) + \left(1 - F_{T}\left(t_{1-\alpha,\widehat{\nu}}\right)\right) \text{ for } j = 1, 2, \ldots, 360}\end{equation}
+\begin{equation}\phantomsection\label{eq-type-I-error-rates}{\widehat{\alpha}_r = F_{T}\left(t_{\frac{\alpha}{2},\widehat{\nu}_r}\right) + \left(1 - F_{T}\left(t_{1-\frac{\alpha}{2},\widehat{\nu}_r}\right)\right) \text{ for } r = 1, \ldots, R}\end{equation}
 
 where \(F_T\) represents the empirical cumulative distribution function
 of the two-sample t-test statistic.
 
 Finally, to assess the accuracy of the estimated type I error rates, we
-calculate the relative difference between each \(\widehat{\alpha}_j\)
+calculate the relative difference between each \(\widehat{\alpha}_r\)
 and the corresponding true significance level \(\alpha\) and compare it
 to a threshold of \(d=0.10\):
 
-\begin{equation}\phantomsection\label{eq-pro-rel-alpha}{\frac{|\widehat{\alpha}_j - \alpha|}{\alpha} > d = 0.10}\end{equation}
+\begin{equation}\phantomsection\label{eq-pro-rel-alpha}{\frac{|\widehat{\alpha}_r - \alpha|}{\alpha} > d = 0.10}\end{equation}
 
 Table~\ref{tbl-sim-pro-rel-alpha-005} and
-Table~\ref{tbl-sim-pro-rel-alpha-010} present the results for the
-combination \((\rho, n_1, k)\) for \(\alpha = 0.05\) and
+Table~\ref{tbl-sim-pro-rel-alpha-010} present the proportion of
+replicates satisfying Equation~\ref{eq-pro-rel-alpha} for the
+combination \((\rho, n_1, k)\) under both \(\alpha = 0.05\) and
 \(\alpha = 0.10\). Also Figure~\ref{fig-sim-pro-rel-alpha} visually
 represents these results, demonstrating that the accuracy of the
 estimated type I error rates generally improves as \(n_1\) increases and
@@ -456,7 +458,7 @@ In our case, following \citet{satterthwaite_approximate_1946} and
 
 \begin{equation}\phantomsection\label{eq-df-ws}{\begin{split}
   \widehat{\nu} & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\sigma}^2_2}{n_2} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{n_2-1} \left( \frac{\widehat{\sigma}^2_2}{n_2} \right)^2} \\
-  & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\rho}\widehat{\sigma}^2_1}{kn_1} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{kn_1-1} \left( \frac{\widehat{\rho}\widehat{\sigma}^2_1}{kn_1} \right)^2} \text{ where } \frac{\widehat{\sigma}^2_1}{\widehat{\sigma}^2_1} \equiv \widehat{\rho} \\
+  & = \frac{\left( \frac{\widehat{\sigma}^2_1}{n_1} + \frac{\widehat{\rho}\widehat{\sigma}^2_1}{kn_1} \right)^2}{\frac{1}{n_1-1} \left( \frac{\widehat{\sigma}^2_1}{n_1} \right)^2 + \frac{1}{kn_1-1} \left( \frac{\widehat{\rho}\widehat{\sigma}^2_1}{kn_1} \right)^2} \text{ where } \frac{\widehat{\sigma}^2_2}{\widehat{\sigma}^2_1} \equiv \widehat{\rho} \\
   & = \frac{(n_1-1)(kn_1-1)(k+\widehat{\rho})^2}{(kn_1-1)k^2 + (n_1-1)\widehat{\rho}^2}
   \end{split}}\end{equation}
 
@@ -470,12 +472,15 @@ In our case, following \citet{satterthwaite_approximate_1946} and
 \end{center}
 
 \begin{description}
-\item[001\_simulation\_script.R]
+\item[functions.R]
+R script that contains the functions used to generate the different
+results
+\item[script\_simulations\_tables\_1\_2.R]
 R script used to produce the simulation results presented in
 Table~\ref{tbl-sim-pro-rel-alpha-005},
 Table~\ref{tbl-sim-pro-rel-alpha-010} and
 Figure~\ref{fig-sim-pro-rel-alpha}
-\item[simulation\_tbl\_stacked.csv]
+\item[simulation\_pct\_rel\_dist\_tbl.csv]
 Simulated dataset Table~\ref{tbl-sim-pro-rel-alpha-005} and
 Table~\ref{tbl-sim-pro-rel-alpha-010}
 \end{description}
@@ -483,6 +488,7 @@ Table~\ref{tbl-sim-pro-rel-alpha-010}
 
 \renewcommand\refname{References}
   \bibliography{bibliography.bib}
+
 
 
 \end{document}
